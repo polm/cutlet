@@ -40,7 +40,18 @@ use the same dictionary you use for normal tokenization.
     # kunreisiki, nihonsiki work too
     katu = cutlet.Cutlet('kunrei')
     katu.romaji("富士見坂")
-    # => 'Hujimi saka'
+    # => 'Huzimi saka'
+
+    # comparison
+    nkatu = cutlet.Cutlet('nihon')
+
+    sent = "彼女は王への手紙を読み上げた。"
+    katsu.romaji(sent).capitalize()
+    # => 'Kanojo wa ou e no tegami wo yomiageta.'
+    katu.romaji(sent).capitalize()
+    # => 'Kanozyo wa ou e no tegami o yomiageta.'
+    nkatu.romaji(sent).capitalize()
+    # => 'Kanozyo ha ou he no tegami wo yomiageta.'
 
 ## Alternatives
 

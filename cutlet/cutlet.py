@@ -84,8 +84,8 @@ class Cutlet:
             # 思えば -> omoeba
             if nw and nw.feature.pos2 in ('接続助詞'): continue
             # 333 -> 333 ; this should probably be handled in mecab
-            if (word.surface.isnumeric() and 
-                    nw and nw.surface.isnumeric()):
+            if (word.surface.isdigit() and 
+                    nw and nw.surface.isdigit()):
                 continue
             # そうでした -> sou deshita
             if (nw and word.feature.pos1 in ('動詞', '助動詞') and
@@ -102,7 +102,7 @@ class Cutlet:
         if word.surface in self.exceptions:
             return self.exceptions[word.surface]
 
-        if word.surface.isnumeric():
+        if word.surface.isdigit():
             return word.surface
 
         if word.surface.isascii():
@@ -114,12 +114,13 @@ class Cutlet:
                 word.feature.pos1 == '助詞' and word.feature.pron == 'ワ'):
             return 'wa'
         elif (not self.use_he and 
-                word.feature.pos1 == '助詞' and word.feature.pron == 'ヘ'):
+                word.feature.pos1 == '助詞' and word.feature.pron == 'エ'):
             return 'e'
         elif (not self.use_wo and 
-                word.feature.pos1 == '助詞' and word.feature.pron == 'ヲ'):
+                word.feature.pos1 == '助詞' and word.feature.pron == 'オ'):
             return 'o'
-        elif '-' not in word.surface and '-' in word.feature.lemma:
+        elif ('-' not in word.surface and word.feature.lemma and
+                '-' in word.feature.lemma):
             # this is a foreign word with known spelling
             return word.feature.lemma.split('-')[-1]
         elif word.feature.kana:
