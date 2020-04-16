@@ -6,17 +6,41 @@
 
 Cutlet is a tool to convert Japanese to romaji. 
 
-Default settings:
+Features:
 
-- hepburn consonants: ji, shi, chi, fu
-- no n-to-m transformation: Shinbashi
-- words with known foreign spellings use that: cutlet
-- no macrons: ousama
-- verbs are joined: ikimasu
-- spaces before particles: hon wo yonda
+- support for [Modified Hepburn](https://en.wikipedia.org/wiki/Hepburn_romanization), [Kunreisiki](https://en.wikipedia.org/wiki/Kunrei-shiki_romanization), [Nihonsiki](https://en.wikipedia.org/wiki/Nihon-shiki_romanization) systems
+- custom overrides for individual mappings
+- custom overrides for specific words
+- built in exceptions list (Tokyo, Osaka)
+- uses foreign spelling when available in UniDic
+- proper nouns are capitalized
+
+Things not supported:
+
+- traditional Hepburn n-to-m: Shimbashi
+- macrons or circumflexes: Tōkyō, Tôkyô
+- passport Hepburn: Satoh (but you can use an exception)
+- hyphenated words (the rules for this seem too irregular to automate)
+- Traditional Hepburn in general is not supported
 
 Internally, cutlet uses [fugashi](https://github.com/polm/fugashi), so you can
 use the same dictionary you use for normal tokenization.
+
+## Usage
+
+    import cutlet
+    katsu = cutlet.Cutlet()
+    katsu.romaji("カツカレーは美味しい")
+    # => 'cutlet curry wa oishii'
+
+    # you can print a slug suitable for urls
+    katsu.slug("カツカレーは美味しい")
+    # => 'cutlet-curry-wa-oishii'
+
+    # kunreisiki, nihonsiki work too
+    katu = cutlet.Cutlet('kunrei')
+    katu.romaji("富士見坂")
+    # => 'Hujimi saka'
 
 ## Alternatives
 
