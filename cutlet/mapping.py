@@ -78,8 +78,8 @@ HEPBURN = {
 'ん':'n',
 
 # obsolete / unusual
-'ゑ':'ye',
-'ゐ':'yi',
+'ゑ':'we',
+'ゐ':'wi',
 'ゔ': 'vu',
 
 # sutegana
