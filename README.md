@@ -4,14 +4,14 @@
 
 <img src="https://github.com/polm/cutlet/raw/master/cutlet.png" width=125 height=125 alt="cutlet by Irasutoya" />
 
-Cutlet is a tool to convert Japanese to romaji. 
+Cutlet is a tool to convert Japanese to romaji.
 
 Features:
 
 - support for [Modified Hepburn](https://en.wikipedia.org/wiki/Hepburn_romanization), [Kunreisiki](https://en.wikipedia.org/wiki/Kunrei-shiki_romanization), [Nihonsiki](https://en.wikipedia.org/wiki/Nihon-shiki_romanization) systems
 - custom overrides for individual mappings
 - custom overrides for specific words
-- built in exceptions list (Tokyo, Osaka)
+- built in exceptions list (Tokyo, Osaka, etc.)
 - uses foreign spelling when available in UniDic
 - proper nouns are capitalized
 
