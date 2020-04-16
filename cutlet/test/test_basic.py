@@ -1,0 +1,93 @@
+import pytest
+from cutlet import Cutlet
+import fugashi
+
+
+# Note that if there are multiple words, only the first is used
+WORDS = [
+        ('新橋', 'shinbashi'),
+        ('学校', 'gakkou'),
+        ('パンダ', 'panda'),
+        # without curry, カツ is registered as 人名 (?)
+        ('カツカレー', 'cutlet'),
+        ('カレー', 'curry'),
+        ('繊維', "sen'i"),
+        ('専用', "sen'you"),
+        ('抹茶', 'matcha'),
+        ('重量', 'juuryou'),
+        ('ポール', 'Paul'),
+        ('1', '1'),
+        ]
+
+WORDS_KUNREI = [
+        ('新橋', 'sinbasi'),
+        ('学校', 'gakkou'),
+        ('パンダ', 'panda'),
+        # without curry, カツ is registered as 人名 (?)
+        ('カツカレー', 'cutlet'),
+        ('カレー', 'curry'),
+        ('繊維', "sen'i"),
+        ('専用', "sen'you"),
+        ('抹茶', 'mattya'),
+        ('重量', 'zyuuryou'),
+        ('ポール', 'Paul'),
+        ('1', '1'),
+        ]
+
+SENTENCES = [
+        ("あっ", "a"),
+        ("富士見坂", "Fujimi saka"),
+        ("本を読みました。", "hon wo yomimashita."),
+        ("新橋行きの電車に乗った。", "shinbashiiki no densha ni notta."),
+        ("カツカレーは美味しい", "cutlet curry wa oishii"),
+        ("酵素とは、生体で起こる化学反応に対して触媒として機能する分子である。", 
+            "kouso to wa, seitai de okoru kagaku hannou ni taishite shokubai to shite kinou suru bunshi de aru."),
+        ("ホッピーは元祖ビアテイスト清涼飲料水です",
+            "Hoppy wa ganso beer taste seiryou inryousui desu"),
+        ("東京タワーの高さは333mです",
+            "Tokyo tower no takasa wa 333 m desu"),
+        ("国立国語研究所（NINJAL）は，日本語学・言語学・日本語教育研究を中心とした研究機関です。",
+            "kokuritsu kokugo kenkyuusho( NINJAL) wa, Nippon gogaku/ gengogaku/ Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu."),
+        ("やっちゃた",
+            "yacchata"),
+        ]
+
+SENTENCES_KUNREI = [
+        ("富士見坂", "Huzimi saka"),
+        ]
+
+SLUGS = [
+        ("東京タワーの高さは？", "tokyo-tower-no-takasa-wa"),
+        ("ゲームマーケットとは", "game-market-to-wa"),
+        ("香川ゲーム条例、「（パブコメは）賛成多数だから採決しては」と発言したのは誰だったのか", 
+            "kagawa-game-jourei-pabukome-wa-sansei-tasuu-dakara-saiketsu-shite-wa-to-hatsugen-shita-no-wa-dare-datta-no-ka"),
+        ("コトヤマ「よふかしのうた」3巻発売記念のPV公開、期間限定で1巻の無料配信も", 
+            "koto-yama-yo-fukashi-no-uta-3-kan-hatsubai-kinen-no-p-v-koukai-kikan-gentei-de-1-kan-no-muryou-haishin-mo"),
+        ]
+
+@pytest.mark.parametrize('ja, roma', WORDS)
+def test_words(ja, roma):
+    cut = Cutlet()
+    word = cut.tagger.parseToNodeList(ja)[0]
+    assert cut.romaji_word(word) == roma
+
+@pytest.mark.parametrize('ja, roma', WORDS_KUNREI)
+def test_words_kunrei(ja, roma):
+    cut = Cutlet('kunrei')
+    word = cut.tagger.parseToNodeList(ja)[0]
+    assert cut.romaji_word(word) == roma
+
+@pytest.mark.parametrize('ja, roma', SENTENCES)
+def test_romaji(ja, roma):
+    cut = Cutlet()
+    assert cut.romaji(ja) == roma
+
+@pytest.mark.parametrize('ja, roma', SENTENCES_KUNREI)
+def test_romaji_kunrei(ja, roma):
+    cut = Cutlet('kunrei')
+    assert cut.romaji(ja) == roma
+
+@pytest.mark.parametrize('ja, roma', SLUGS)
+def test_romaji_slugs(ja, roma):
+    cut = Cutlet()
+    assert cut.slug(ja) == roma
