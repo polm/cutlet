@@ -1,5 +1,4 @@
 import fugashi
-import mojimoji
 import jaconv
 import re
 import pathlib
@@ -9,7 +8,7 @@ from .mapping import *
 SUTEGANA = 'ゃゅょぁぃぅぇぉ'
 PUNCT = '\'".!?(),;:-'
 
-systems = {
+SYSTEMS = {
         'hepburn': HEPBURN,
         'kunrei': KUNREISHIKI,
         'nihon': NIHONSHIKI,
@@ -31,7 +30,7 @@ class Cutlet:
         self.system = system
         try:
             # make a copy so we can modify it
-            self.table = dict(systems[system])
+            self.table = dict(SYSTEMS[system])
         except KeyError:
             print("unknown system: {}".format(system))
             raise
@@ -39,7 +38,10 @@ class Cutlet:
         self.tagger = fugashi.Tagger()
         self.exceptions = load_exceptions()
 
-        self.use_tch = (self.system == 'hepburn')
+        self.use_tch = (self.system in ('hepburn'))
+        self.use_wa  = (self.system in ('hepburn', 'kunrei'))
+        self.use_he  = (self.system in ('nihon'))
+        self.use_wo  = (self.system in ('hepburn', 'nihon'))
 
     def add_exception(self, key, val):
         self.exceptions[key] = val
@@ -47,8 +49,7 @@ class Cutlet:
     def update_mapping(self, key, val):
         """Update mapping table.
 
-        This can be used to mix common systems, or to modify particular details
-        like how を should be romanized.
+        This can be used to mix common systems, or to modify particular details.
         """
         self.table[key] = val
 
@@ -109,8 +110,15 @@ class Cutlet:
 
         if word.feature.pos1 == '補助記号':
             return self.table[word.surface]
-        elif word.feature.pos1 == '助詞' and word.feature.pron == 'ワ':
+        elif (self.use_wa and 
+                word.feature.pos1 == '助詞' and word.feature.pron == 'ワ'):
             return 'wa'
+        elif (not self.use_he and 
+                word.feature.pos1 == '助詞' and word.feature.pron == 'ヘ'):
+            return 'e'
+        elif (not self.use_wo and 
+                word.feature.pos1 == '助詞' and word.feature.pron == 'ヲ'):
+            return 'o'
         elif '-' not in word.surface and '-' in word.feature.lemma:
             # this is a foreign word with known spelling
             return word.feature.lemma.split('-')[-1]
