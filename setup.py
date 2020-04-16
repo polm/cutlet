@@ -1,8 +1,9 @@
+import setuptools
 from distutils.core import setup
 import pathlib
 
 setup(name='cutlet', 
-      version='0.1.0',
+      version='0.1.0rc1',
       author="Paul O'Leary McCann",
       author_email="polm@dampfkraft.com",
       description="Romaji converter",
@@ -10,7 +11,7 @@ setup(name='cutlet',
       long_description_content_type="text/markdown",
       url="https://github.com/polm/cutlet",
       packages=setuptools.find_packages(),
-      install_requires=['jaconv'],
+      install_requires=['jaconv', 'fugashi'],
       classifiers=[
           "License :: OSI Approved :: MIT License",
           "Natural Language :: Japanese",
