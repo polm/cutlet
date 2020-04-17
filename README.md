@@ -40,6 +40,16 @@ install one. If you're just getting started
 
 ## Usage
 
+A command-line script is included for quick testing. Just use `cutlet` and each
+line of stdin will be treated as a sentence. You can specify the system to use
+(`hepburn`, `kunrei`, `nippon`, or `nihon`) as the first argument.
+
+    $ cutlet
+    ローマ字変換プログラム作ってみた。
+    Roma ji henkan program tsukutte mita.
+
+In code:
+
     import cutlet
     katsu = cutlet.Cutlet()
     katsu.romaji("カツカレーは美味しい")
