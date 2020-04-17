@@ -18,4 +18,5 @@ setup(name='cutlet',
           ],
       python_requires='>=3.5',
       scripts=['bin/cutlet'],
+      package_data={'cutlet':['exceptions.tsv']},
       )
