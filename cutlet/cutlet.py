@@ -27,6 +27,8 @@ def load_exceptions():
 
 class Cutlet:
     def __init__(self, system='hepburn'):
+        # allow 'nippon' for 'nihon'
+        if system == 'nippon': system = 'nihon'
         self.system = system
         try:
             # make a copy so we can modify it
@@ -43,6 +45,8 @@ class Cutlet:
         self.use_he  = (self.system in ('nihon'))
         self.use_wo  = (self.system in ('hepburn', 'nihon'))
 
+        self.use_foreign_spelling = True
+
     def add_exception(self, key, val):
         self.exceptions[key] = val
 
@@ -58,8 +62,14 @@ class Cutlet:
         slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
         return slug
 
-    def romaji(self, text):
-        """Build a complete string from input text."""
+    def romaji(self, text, capitalize=True):
+        """Build a complete string from input text.
+
+        If `capitalize` is True, then the first letter of the text will be
+        capitalized. This is typically the desired behavior if the input is a
+        complete sentence.
+        """
+
         words = self.tagger.parseToNodeList(text)
 
         out = ''
@@ -74,6 +84,16 @@ class Cutlet:
                 out = out[:-1] + roma[0]
             if word.feature.pos2 == '固有名詞':
                 roma = roma.title()
+            # handle punctuation with atypical spacing
+            if word.surface in '「『':
+                out += ' ' + roma
+                continue
+            if roma == '(':
+                out += ' ('
+                continue
+            if roma == '/':
+                out += '/'
+                continue
             out += roma
 
             # no space sometimes
@@ -93,8 +113,11 @@ class Cutlet:
                 continue
             out += ' '
         # remove any leftover っ
-        out = out.replace('っ', '')
-        return out.strip()
+        out = out.replace('っ', '').strip()
+        # capitalize the first letter
+        if capitalize:
+            out = out[0].capitalize() + out[1:]
+        return out
 
     def romaji_word(self, word):
         """Word is a fugashi node, return a string"""
@@ -119,7 +142,8 @@ class Cutlet:
         elif (not self.use_wo and 
                 word.feature.pos1 == '助詞' and word.feature.pron == 'オ'):
             return 'o'
-        elif ('-' not in word.surface and word.feature.lemma and
+        elif (self.use_foreign_spelling and 
+                '-' not in word.surface and word.feature.lemma and
                 '-' in word.feature.lemma):
             # this is a foreign word with known spelling
             return word.feature.lemma.split('-')[-1]

@@ -20,22 +20,39 @@ Things not supported:
 - traditional Hepburn n-to-m: Shimbashi
 - macrons or circumflexes: Tōkyō, Tôkyô
 - passport Hepburn: Satoh (but you can use an exception)
-- hyphenated words (the rules for this seem too irregular to automate)
+- hyphenating words
 - Traditional Hepburn in general is not supported
 
 Internally, cutlet uses [fugashi](https://github.com/polm/fugashi), so you can
 use the same dictionary you use for normal tokenization.
+
+## Installation
+
+Cutlet can be installed through pip as usual.
+
+    pip install cutlet
+
+Note that if you don't have a MeCab dictionary installed you'll also have to
+install one. If you're just getting started
+[unidic-lite](https://github.com/polm/unidic-lite) is probably fine. 
+
+    pip install unidic-lite
 
 ## Usage
 
     import cutlet
     katsu = cutlet.Cutlet()
     katsu.romaji("カツカレーは美味しい")
-    # => 'cutlet curry wa oishii'
+    # => 'Cutlet curry wa oishii'
 
     # you can print a slug suitable for urls
     katsu.slug("カツカレーは美味しい")
     # => 'cutlet-curry-wa-oishii'
+
+    # You can disable using foreign spelling too
+    katsu.use_foreign_spelling = False
+    katsu.romaji("カツカレーは美味しい")
+    # => 'Katsu karee wa oishii'
 
     # kunreisiki, nihonsiki work too
     katu = cutlet.Cutlet('kunrei')
@@ -46,11 +63,11 @@ use the same dictionary you use for normal tokenization.
     nkatu = cutlet.Cutlet('nihon')
 
     sent = "彼女は王への手紙を読み上げた。"
-    katsu.romaji(sent).capitalize()
+    katsu.romaji(sent)
     # => 'Kanojo wa ou e no tegami wo yomiageta.'
-    katu.romaji(sent).capitalize()
+    katu.romaji(sent)
     # => 'Kanozyo wa ou e no tegami o yomiageta.'
-    nkatu.romaji(sent).capitalize()
+    nkatu.romaji(sent)
     # => 'Kanozyo ha ou he no tegami wo yomiageta.'
 
 ## Alternatives

@@ -35,21 +35,22 @@ WORDS_KUNREI = [
         ]
 
 SENTENCES = [
-        ("あっ", "a"),
+        ("あっ", "A"),
+        ("括弧は「こう」でなくちゃ", "Kakko wa \"kou\" de nakucha"),
         ("富士見坂", "Fujimi saka"),
-        ("本を読みました。", "hon wo yomimashita."),
-        ("新橋行きの電車に乗った。", "shinbashiiki no densha ni notta."),
-        ("カツカレーは美味しい", "cutlet curry wa oishii"),
+        ("本を読みました。", "Hon wo yomimashita."),
+        ("新橋行きの電車に乗った。", "Shinbashiiki no densha ni notta."),
+        ("カツカレーは美味しい", "Cutlet curry wa oishii"),
         ("酵素とは、生体で起こる化学反応に対して触媒として機能する分子である。", 
-            "kouso to wa, seitai de okoru kagaku hannou ni taishite shokubai to shite kinou suru bunshi de aru."),
+            "Kouso to wa, seitai de okoru kagaku hannou ni taishite shokubai to shite kinou suru bunshi de aru."),
         ("ホッピーは元祖ビアテイスト清涼飲料水です",
             "Hoppy wa ganso beer taste seiryou inryousui desu"),
         ("東京タワーの高さは333mです",
             "Tokyo tower no takasa wa 333 m desu"),
         ("国立国語研究所（NINJAL）は，日本語学・言語学・日本語教育研究を中心とした研究機関です。",
-            "kokuritsu kokugo kenkyuusho( NINJAL) wa, Nippon gogaku/ gengogaku/ Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu."),
-        ("やっちゃた",
-            "yacchata"),
+            "Kokuritsu kokugo kenkyuusho (NINJAL) wa, Nippon gogaku/gengogaku/Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu."),
+        ("やっちゃた！",
+            "Yacchata!"),
         ]
 
 SENTENCES_KUNREI = [
@@ -63,6 +64,10 @@ SLUGS = [
             "kagawa-game-jourei-pabukome-wa-sansei-tasuu-dakara-saiketsu-shite-wa-to-hatsugen-shita-no-wa-dare-datta-no-ka"),
         ("コトヤマ「よふかしのうた」3巻発売記念のPV公開、期間限定で1巻の無料配信も", 
             "koto-yama-yo-fukashi-no-uta-3-kan-hatsubai-kinen-no-p-v-koukai-kikan-gentei-de-1-kan-no-muryou-haishin-mo"),
+        ]
+
+NON_FOREIGN = [
+        ("カツカレーは美味しい", "Katsu karee wa oishii")
         ]
 
 @pytest.mark.parametrize('ja, roma', WORDS)
@@ -91,3 +96,9 @@ def test_romaji_kunrei(ja, roma):
 def test_romaji_slugs(ja, roma):
     cut = Cutlet()
     assert cut.slug(ja) == roma
+
+@pytest.mark.parametrize('ja, roma', NON_FOREIGN)
+def test_romaji_slugs(ja, roma):
+    cut = Cutlet()
+    cut.use_foreign_spelling = False
+    assert cut.romaji(ja) == roma
