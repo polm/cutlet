@@ -72,5 +72,8 @@ install one. If you're just getting started
 
 ## Alternatives
 
+- [kakasi](http://kakasi.namazu.org/index.html.ja): Historically important, but not updated since 2014. 
 - [pykakasi](https://github.com/miurahr/pykakasi): self contained, it does segmentation on its own and uses its own dictionary.
+- [kuroshiro](https://github.com/hexenq/kuroshiro): Javascript based.
+- [kana](https://github.com/gojp/kana): Go based.
 
