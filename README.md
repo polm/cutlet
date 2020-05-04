@@ -14,6 +14,7 @@ Features:
 - built in exceptions list (Tokyo, Osaka, etc.)
 - uses foreign spelling when available in UniDic
 - proper nouns are capitalized
+- slug mode for url generation
 
 Things not supported:
 

@@ -78,7 +78,7 @@ class Cutlet:
             pw = words[wi - 1] if wi > 0 else None
             nw = words[wi + 1] if wi < len(words) - 1 else None
 
-            # resolve split verbs
+            # resolve split verbs / adjectives
             roma = self.romaji_word(word)
             if roma and out and out[-1] == 'っ':
                 out = out[:-1] + roma[0]
@@ -108,8 +108,8 @@ class Cutlet:
                     nw and nw.surface.isdigit()):
                 continue
             # そうでした -> sou deshita
-            if (nw and word.feature.pos1 in ('動詞', '助動詞') and
-                    nw and nw.feature.pos1 == '助動詞'):
+            if (nw and word.feature.pos1 in ('動詞', '助動詞', '形容詞') 
+                   and nw.feature.pos1 == '助動詞'):
                 continue
             out += ' '
         # remove any leftover っ

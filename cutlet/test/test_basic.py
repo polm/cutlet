@@ -49,8 +49,8 @@ SENTENCES = [
             "Tokyo tower no takasa wa 333 m desu"),
         ("国立国語研究所（NINJAL）は，日本語学・言語学・日本語教育研究を中心とした研究機関です。",
             "Kokuritsu kokugo kenkyuusho (NINJAL) wa, Nippon gogaku/gengogaku/Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu."),
-        ("やっちゃた！",
-            "Yacchata!"),
+        ("やっちゃった！", "Yacchatta!"),
+        ("暖かかった", "Atatakakatta"),
         ]
 
 SENTENCES_KUNREI = [
