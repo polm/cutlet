@@ -144,8 +144,12 @@ class Cutlet:
             return 'o'
         elif (self.use_foreign_spelling and 
                 '-' not in word.surface and word.feature.lemma and
-                '-' in word.feature.lemma):
+                '-' in word.feature.lemma and
+                '外国' not in word.feature.lemma):
             # this is a foreign word with known spelling
+
+            #NOTE: some words have 外国 instead of a foreign spelling. ジル
+            # (Jill?) is an example. Unclear why this is the case.
             return word.feature.lemma.split('-')[-1]
         elif word.feature.kana:
             # for known words

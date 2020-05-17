@@ -16,6 +16,7 @@ WORDS = [
         ('抹茶', 'matcha'),
         ('重量', 'juuryou'),
         ('ポール', 'Paul'),
+        ('ジル', 'jiru'), # test of ジル-外国 style lemmas
         ('1', '1'),
         ]
 
@@ -23,7 +24,7 @@ WORDS_KUNREI = [
         ('新橋', 'sinbasi'),
         ('学校', 'gakkou'),
         ('パンダ', 'panda'),
-        # without curry, カツ is registered as 人名 (?)
+        # without curry, カツ is registered as 人名
         ('カツカレー', 'cutlet'),
         ('カレー', 'curry'),
         ('繊維', "sen'i"),
