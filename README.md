@@ -67,8 +67,8 @@ In code:
 
     # kunreisiki, nihonsiki work too
     katu = cutlet.Cutlet('kunrei')
-    katu.romaji("富士見坂")
-    # => 'Huzimi saka'
+    katu.romaji("富士山")
+    # => 'Huzi yama'
 
     # comparison
     nkatu = cutlet.Cutlet('nihon')
