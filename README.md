@@ -6,6 +6,8 @@
 
 Cutlet is a tool to convert Japanese to romaji.
 
+**issueを英語で書く必要はありません。**
+
 Features:
 
 - support for [Modified Hepburn](https://en.wikipedia.org/wiki/Hepburn_romanization), [Kunreisiki](https://en.wikipedia.org/wiki/Kunrei-shiki_romanization), [Nihonsiki](https://en.wikipedia.org/wiki/Nihon-shiki_romanization) systems
