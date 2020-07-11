@@ -69,6 +69,8 @@ class Cutlet:
         capitalized. This is typically the desired behavior if the input is a
         complete sentence.
         """
+        if not text:
+            return ''
 
         words = self.tagger.parseToNodeList(text)
 

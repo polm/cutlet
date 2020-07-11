@@ -1,6 +1,5 @@
 import pytest
 from cutlet import Cutlet
-import fugashi
 
 
 # Note that if there are multiple words, only the first is used
@@ -102,4 +101,12 @@ def test_romaji_slugs(ja, roma):
 def test_romaji_slugs(ja, roma):
     cut = Cutlet()
     cut.use_foreign_spelling = False
+    assert cut.romaji(ja) == roma
+
+@pytest.mark.parametrize('ja, roma', [
+    (None, ''),
+    ('', '')
+])
+def test_empty_string(ja, roma):
+    cut = Cutlet()
     assert cut.romaji(ja) == roma
