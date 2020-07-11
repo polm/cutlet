@@ -1,6 +1,5 @@
 import pytest
 from cutlet import Cutlet
-import fugashi
 
 
 # Note that if there are multiple words, only the first is used
