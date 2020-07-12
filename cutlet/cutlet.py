@@ -14,6 +14,40 @@ SYSTEMS = {
         'nihon': NIHONSHIKI,
 }
 
+def isascii(word):
+    try:
+       word.encode('ascii');
+       return True
+    except UnicodeEncodeError:
+       return False
+
+def has_foreign_lemma(word):
+    """Check if a word has a foreign lemma.
+
+    This doesn't get its own field, the lemma field is overloaded. There are
+    also cases where the lemma field is overloaded with non-foreign-lemma
+    information."""
+
+    if '-' in word.surface: 
+        # TODO check if this is actually possible in vanilla unidic
+        return False
+
+    if not word.feature.lemma:
+        # No lemma means no foreign lemma
+        return False
+
+    lemma = word.feature.lemma
+
+    if not '-' in lemma:
+        return False
+
+    cand = lemma.split('-')[-1]
+    # NOTE: some words have 外国 instead of a foreign spelling. ジル
+    # (Jill?) is an example. Unclear why this is the case.
+    # NOTE: There are other hyphenated lemmas, like 私-代名詞. 
+    if isascii(cand):
+        return True
+
 def load_exceptions():
     cdir = pathlib.Path(__file__).parent.absolute()
     exceptions = {}
@@ -130,7 +164,7 @@ class Cutlet:
         if word.surface.isdigit():
             return word.surface
 
-        if word.surface.isascii():
+        if isascii(word.surface):
             return word.surface
 
         if word.feature.pos1 == '補助記号':
@@ -145,13 +179,8 @@ class Cutlet:
                 word.feature.pos1 == '助詞' and word.feature.pron == 'オ'):
             return 'o'
         elif (self.use_foreign_spelling and 
-                '-' not in word.surface and word.feature.lemma and
-                '-' in word.feature.lemma and
-                '外国' not in word.feature.lemma):
+                has_foreign_lemma(word)):
             # this is a foreign word with known spelling
-
-            #NOTE: some words have 外国 instead of a foreign spelling. ジル
-            # (Jill?) is an example. Unclear why this is the case.
             return word.feature.lemma.split('-')[-1]
         elif word.feature.kana:
             # for known words

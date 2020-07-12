@@ -51,6 +51,7 @@ SENTENCES = [
             "Kokuritsu kokugo kenkyuusho (NINJAL) wa, Nippon gogaku/gengogaku/Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu."),
         ("やっちゃった！", "Yacchatta!"),
         ("暖かかった", "Atatakakatta"),
+        ("私はテストです", "Watakushi wa test desu"), # issue #4, 私 -> 代名詞
         ]
 
 SENTENCES_KUNREI = [
