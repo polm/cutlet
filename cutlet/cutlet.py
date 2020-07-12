@@ -74,9 +74,9 @@ class Cutlet:
         self.tagger = fugashi.Tagger()
         self.exceptions = load_exceptions()
 
-        self.use_tch = (self.system in ('hepburn'))
+        self.use_tch = (self.system in ('hepburn',))
         self.use_wa  = (self.system in ('hepburn', 'kunrei'))
-        self.use_he  = (self.system in ('nihon'))
+        self.use_he  = (self.system in ('nihon',))
         self.use_wo  = (self.system in ('hepburn', 'nihon'))
 
         self.use_foreign_spelling = True
