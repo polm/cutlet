@@ -2,6 +2,7 @@ import fugashi
 import jaconv
 import re
 import pathlib
+import sys
 
 from .mapping import *
 
@@ -14,12 +15,15 @@ SYSTEMS = {
         'nihon': NIHONSHIKI,
 }
 
-def isascii(word):
-    try:
-       word.encode('ascii');
-       return True
-    except UnicodeEncodeError:
-       return False
+if sys.version_info >= (3, 7):
+    def is_ascii(s):
+        return s.isascii()
+else:
+    def is_ascii(s):
+        for c in s: 
+            if c > '\x7f': 
+                return False 
+        return True 
 
 def has_foreign_lemma(word):
     """Check if a word has a foreign lemma.
