@@ -3,7 +3,7 @@ from distutils.core import setup
 import pathlib
 
 setup(name='cutlet', 
-      version='0.1.3',
+      version='0.1.4',
       author="Paul O'Leary McCann",
       author_email="polm@dampfkraft.com",
       description="Romaji converter",
