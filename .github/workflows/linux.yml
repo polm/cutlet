@@ -12,9 +12,8 @@ jobs:
     - name: Install deps
       shell: bash
       run: |
-        python -m pip install --upgrade setuptools wheel pip
-        pip install fugashi[unidic-lite] jaconv
-        pip install .
+        python3 -m pip install --upgrade setuptools wheel pip pytest 
+        pip3 install fugashi[unidic-lite] jaconv
     - name: Run tests
       run: |
         pytest cutlet/test
