@@ -49,7 +49,7 @@ def has_foreign_lemma(word):
     # NOTE: some words have 外国 instead of a foreign spelling. ジル
     # (Jill?) is an example. Unclear why this is the case.
     # NOTE: There are other hyphenated lemmas, like 私-代名詞. 
-    if isascii(cand):
+    if is_ascii(cand):
         return True
 
 def load_exceptions():
@@ -168,7 +168,7 @@ class Cutlet:
         if word.surface.isdigit():
             return word.surface
 
-        if isascii(word.surface):
+        if is_ascii(word.surface):
             return word.surface
 
         if word.feature.pos1 == '補助記号':
