@@ -11,7 +11,7 @@ setup(name='cutlet',
       long_description_content_type="text/markdown",
       url="https://github.com/polm/cutlet",
       packages=setuptools.find_packages(),
-      install_requires=['jaconv', 'fugashi'],
+      install_requires=['jaconv', 'fugashi', 'mojimoji'],
       classifiers=[
           "License :: OSI Approved :: MIT License",
           "Natural Language :: Japanese",

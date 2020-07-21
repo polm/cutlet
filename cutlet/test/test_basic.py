@@ -52,6 +52,10 @@ SENTENCES = [
         ("やっちゃった！", "Yacchatta!"),
         ("暖かかった", "Atatakakatta"),
         ("私はテストです", "Watakushi wa test desu"), # issue #4, 私 -> 代名詞
+        ("《月》", "(gatsu)"), # issue #7, unfamiliar punctuation
+        ("２ 【電子版特典付】", "2 [denshi ban tokutentsuke]"), # issue #7
+        # This looks weird but MeCab tokenizes at alpha-num barriers
+        ("ｃｕｔｌｅｔ２３", "Cutlet 23"),
         ]
 
 SENTENCES_KUNREI = [

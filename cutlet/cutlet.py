@@ -1,5 +1,6 @@
 import fugashi
 import jaconv
+import mojimoji
 import re
 import pathlib
 import sys
@@ -110,6 +111,9 @@ class Cutlet:
         if not text:
             return ''
 
+        # convert all full-width alphanum to half-width, since it can go out as-is
+        text = mojimoji.zen_to_han(text, kana=False)
+
         words = self.tagger.parseToNodeList(text)
 
         out = ''
@@ -128,8 +132,8 @@ class Cutlet:
             if word.surface in '「『':
                 out += ' ' + roma
                 continue
-            if roma == '(':
-                out += ' ('
+            if roma in '([':
+                out += ' ' + roma
                 continue
             if roma == '/':
                 out += '/'
@@ -141,6 +145,8 @@ class Cutlet:
             if word.feature.pos1 == '接頭辞': continue
             # 今日、 -> kyou, ; 図書館 -> toshokan
             if nw and nw.feature.pos1 in ('補助記号', '接尾辞'): continue
+            # special case for half-width commas
+            if nw and nw.surface == ',': continue
             # 思えば -> omoeba
             if nw and nw.feature.pos2 in ('接続助詞'): continue
             # 333 -> 333 ; this should probably be handled in mecab
@@ -172,7 +178,8 @@ class Cutlet:
             return word.surface
 
         if word.feature.pos1 == '補助記号':
-            return self.table[word.surface]
+            # If it's punctuation we don't recognize, just discard it
+            return self.table.get(word.surface, '')
         elif (self.use_wa and 
                 word.feature.pos1 == '助詞' and word.feature.pron == 'ワ'):
             return 'wa'
