@@ -61,6 +61,10 @@ SENTENCES = [
             "Amagami Sincerely Y o u r S shinshiariiyuaazu"),
         ("ケメコデラックス", "Kemekoderakkusu"),
         ("プププランド", "Pupupurando"),
+        # Add some non-Japanese tests
+        ("панда", "Панда"),
+        ("팬더", "팬더"),
+        ("「彁」は幽霊文字のひとつ", '"?" wa yuurei moji no hitotsu'),
         ]
 
 SENTENCES_KUNREI = [
