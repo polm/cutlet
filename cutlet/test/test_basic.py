@@ -58,7 +58,7 @@ SENTENCES = [
         ("ｃｕｔｌｅｔ２３", "Cutlet 23"),
         # Test some kana unks - issue #8
         ("アマガミ Sincerely Your S シンシアリーユアーズ", 
-            "Amagami Sincerely Your S shinshiariiyuaazu"),
+            "Amagami Sincerely Y o u r S shinshiariiyuaazu"),
         ("ケメコデラックス", "Kemekoderakkusu"),
         ("プププランド", "Pupupurando"),
         ]
