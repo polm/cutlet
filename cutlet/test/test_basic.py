@@ -56,6 +56,11 @@ SENTENCES = [
         ("２ 【電子版特典付】", "2 [denshi ban tokutentsuke]"), # issue #7
         # This looks weird but MeCab tokenizes at alpha-num barriers
         ("ｃｕｔｌｅｔ２３", "Cutlet 23"),
+        # Test some kana unks - issue #8
+        ("アマガミ Sincerely Your S シンシアリーユアーズ", 
+            "Amagami Sincerely Your S shinshiariiyuaazu"),
+        ("ケメコデラックス", "Kemekoderakkusu"),
+        ("プププランド", "Pupupurando"),
         ]
 
 SENTENCES_KUNREI = [

@@ -114,7 +114,7 @@ class Cutlet:
         # convert all full-width alphanum to half-width, since it can go out as-is
         text = mojimoji.zen_to_han(text, kana=False)
 
-        words = self.tagger.parseToNodeList(text)
+        words = self.tagger(text)
 
         out = ''
 
@@ -198,6 +198,16 @@ class Cutlet:
             kana = jaconv.kata2hira(word.feature.kana)
             return self.map_kana(kana)
         else:
+            # at this point is is presumably an unk
+            # Check character type using the values defined in char.def. 
+            # This is constant across unidic versions so far but not guaranteed.
+            if word.char_type == 6 or word.char_type == 7: # hiragana/katakana
+                kana = jaconv.kata2hira(word.surface)
+                return self.map_kana(kana)
+            elif word.char_type == 2: # kanji we don't know, like 彁
+                out = ['?' for xx in word.surface]
+                return out
+            # At this point it could be hangul or cyrillic or something
             return word.surface
 
     def map_kana(self, kana):
