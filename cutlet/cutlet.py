@@ -161,8 +161,11 @@ class Cutlet:
         # remove any leftover っ
         out = out.replace('っ', '').strip()
         # capitalize the first letter
-        if capitalize:
-            out = out[0].capitalize() + out[1:]
+        if capitalize and len(out) > 0:
+            tmp = out[0].capitalize()
+            if len(out) > 1:
+                tmp += out[1:]
+            out = tmp
         return out
 
     def romaji_word(self, word):
