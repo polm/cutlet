@@ -3,7 +3,7 @@ from distutils.core import setup
 import pathlib
 
 setup(name='cutlet', 
-      version='0.1.5',
+      use_scm_version=True,
       author="Paul O'Leary McCann",
       author_email="polm@dampfkraft.com",
       description="Romaji converter",
@@ -12,6 +12,7 @@ setup(name='cutlet',
       url="https://github.com/polm/cutlet",
       packages=setuptools.find_packages(),
       install_requires=['jaconv', 'fugashi', 'mojimoji'],
+      setup_requries=['setuptools-scm'],
       classifiers=[
           "License :: OSI Approved :: MIT License",
           "Natural Language :: Japanese",
