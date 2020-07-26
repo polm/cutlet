@@ -24,7 +24,7 @@ jobs:
       run: |
         pytest
     - name: Publish to PyPI if tagged
-      if: startsWith(github.ref, 'refs/tags')
+      if: startsWith(github.ref, 'refs/tags') && matrix.python-version == 3.8
       env:
         TWINE_USERNAME: "23"
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
