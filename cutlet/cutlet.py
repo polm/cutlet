@@ -85,6 +85,7 @@ class Cutlet:
         self.use_wo  = (self.system in ('hepburn', 'nihon'))
 
         self.use_foreign_spelling = True
+        self.ensure_ascii = True
 
     def add_exception(self, key, val):
         self.exceptions[key] = val
@@ -189,11 +190,15 @@ class Cutlet:
             if word.char_type == 6 or word.char_type == 7: # hiragana/katakana
                 kana = jaconv.kata2hira(word.surface)
                 return self.map_kana(kana)
-            elif word.char_type == 2: # kanji we don't know, like 彁
+
+            # At this point this is an unknown word and not kana. Could be
+            # unknown kanji, could be hangul, cyrillic, something else.
+            # By default ensure ascii by replacing with ?, but allow pass-through.
+            if self.ensure_ascii:
                 out = '?' * len(word.surface)
                 return out
-            # At this point it could be hangul or cyrillic or something
-            return word.surface
+            else:
+                return word.surface
 
         if word.feature.pos1 == '補助記号':
             # If it's punctuation we don't recognize, just discard it

@@ -62,8 +62,8 @@ SENTENCES = [
         ("ケメコデラックス", "Kemekoderakkusu"),
         ("プププランド", "Pupupurando"),
         # Add some non-Japanese tests
-        ("панда", "Панда"),
-        ("팬더", "팬더"),
+        ("панда", "?????"),
+        ("팬더", "??"),
         ("「彁」は幽霊文字のひとつ", '"?" wa yuurei moji no hitotsu'),
         ]
 
@@ -78,10 +78,13 @@ SLUGS = [
             "kagawa-game-jourei-pabukome-wa-sansei-tasuu-dakara-saiketsu-shite-wa-to-hatsugen-shita-no-wa-dare-datta-no-ka"),
         ("コトヤマ「よふかしのうた」3巻発売記念のPV公開、期間限定で1巻の無料配信も", 
             "koto-yama-yo-fukashi-no-uta-3-kan-hatsubai-kinen-no-p-v-koukai-kikan-gentei-de-1-kan-no-muryou-haishin-mo"),
+        # Include some unks
+        ("彁は幽霊文字", "wa-yuurei-moji"),
+        ("パンダはロシア語でпанда", "panda-wa-rossiya-go-de"),
         ]
 
 NON_FOREIGN = [
-        ("カツカレーは美味しい", "Katsu karee wa oishii")
+        ("カツカレーは美味しい", "Katsu karee wa oishii"),
         ]
 
 @pytest.mark.parametrize('ja, roma', WORDS)
@@ -112,7 +115,7 @@ def test_romaji_slugs(ja, roma):
     assert cut.slug(ja) == roma
 
 @pytest.mark.parametrize('ja, roma', NON_FOREIGN)
-def test_romaji_slugs(ja, roma):
+def test_romaji_non_foreign(ja, roma):
     cut = Cutlet()
     cut.use_foreign_spelling = False
     assert cut.romaji(ja) == roma
