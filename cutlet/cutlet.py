@@ -186,7 +186,6 @@ class Cutlet:
             # at this point is is presumably an unk
             # Check character type using the values defined in char.def. 
             # This is constant across unidic versions so far but not guaranteed.
-            print('unk', word.char_type)
             if word.char_type == 6 or word.char_type == 7: # hiragana/katakana
                 kana = jaconv.kata2hira(word.surface)
                 return self.map_kana(kana)
