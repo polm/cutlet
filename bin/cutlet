@@ -4,6 +4,10 @@ from cutlet import Cutlet
 import fileinput
 import sys
 
+# Don't print an error on SIGPIPE
+from signal import signal, SIGPIPE, SIG_DFL
+signal(SIGPIPE, SIG_DFL) 
+
 if __name__ == '__main__':
     system = sys.argv[1] if len(sys.argv) > 1 else 'hepburn'
 
