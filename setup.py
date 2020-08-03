@@ -2,6 +2,10 @@ import setuptools
 from distutils.core import setup
 import pathlib
 
+# This is necessary to get the version right, otherwise
+# it will fail and give v0.0.0
+import setuptools_scm
+
 setup(name='cutlet', 
       use_scm_version=True,
       author="Paul O'Leary McCann",
