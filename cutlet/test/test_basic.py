@@ -65,6 +65,9 @@ SENTENCES = [
         ("панда", "?????"),
         ("팬더", "??"),
         ("「彁」は幽霊文字のひとつ", '"?" wa yuurei moji no hitotsu'),
+        # Do half-width katakana
+        ("ﾎﾟｰﾙ", "Paul"),
+        ("ｳｽｲﾎﾝ", "Usuihon"),
         ]
 
 SENTENCES_KUNREI = [

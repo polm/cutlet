@@ -114,6 +114,8 @@ class Cutlet:
 
         # convert all full-width alphanum to half-width, since it can go out as-is
         text = mojimoji.zen_to_han(text, kana=False)
+        # replace half-width katakana with full-width
+        text = mojimoji.han_to_zen(text, digit=False, ascii=False)
 
         words = self.tagger(text)
 
