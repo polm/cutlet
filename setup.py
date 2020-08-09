@@ -22,6 +22,9 @@ setup(name='cutlet',
           "Natural Language :: Japanese",
           ],
       python_requires='>=3.5',
-      scripts=['bin/cutlet'],
       package_data={'cutlet':['exceptions.tsv']},
+      entry_points={
+          "console_scripts": [
+              "cutlet = cutlet.cli:main",
+              ]},
       )
