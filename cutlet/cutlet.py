@@ -159,7 +159,7 @@ class Cutlet:
             # そうでした -> sou deshita
             if (nw and word.feature.pos1 in ('動詞', '助動詞','形容詞')
                    and nw.feature.pos1 == '助動詞'
-                   and nw.surface != 'です')):
+                   and nw.surface != 'です'):
                 continue
             out += ' '
         # remove any leftover っ
