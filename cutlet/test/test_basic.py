@@ -68,6 +68,9 @@ SENTENCES = [
         # Do half-width katakana
         ("ﾎﾟｰﾙ", "Paul"),
         ("ｳｽｲﾎﾝ", "Usuihon"),
+        # Test adjective + desu
+        ("赤いです", "Akai desu"),
+        ("美味しいです", "Oishii desu"),
         ]
 
 SENTENCES_KUNREI = [

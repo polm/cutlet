@@ -157,8 +157,9 @@ class Cutlet:
                     nw and nw.surface.isdigit()):
                 continue
             # そうでした -> sou deshita
-            if (nw and word.feature.pos1 in ('動詞', '助動詞', '形容詞') 
-                   and nw.feature.pos1 == '助動詞'):
+            if (nw and word.feature.pos1 in ('動詞', '助動詞','形容詞')
+                   and nw.feature.pos1 == '助動詞'
+                   and nw.surface != 'です')):
                 continue
             out += ' '
         # remove any leftover っ
