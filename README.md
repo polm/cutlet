@@ -4,7 +4,9 @@
 
 <img src="https://github.com/polm/cutlet/raw/master/cutlet.png" width=125 height=125 alt="cutlet by Irasutoya" />
 
-Cutlet is a tool to convert Japanese to romaji.
+Cutlet is a tool to convert Japanese to romaji. Check out the [interactive demo][demo]!
+
+[demo]: https://demo.cotonoha.io/cutlet
 
 **issueを英語で書く必要はありません。**
 
