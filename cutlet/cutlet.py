@@ -56,12 +56,13 @@ def has_foreign_lemma(word):
 def load_exceptions():
     cdir = pathlib.Path(__file__).parent.absolute()
     exceptions = {}
-    for line in open(cdir / 'exceptions.tsv', encoding='utf-8'):
-        line = line.strip()
-        # allow comments and blanks
-        if line[0] == '#' or not line: continue
-        key, val = line.split('\t')
-        exceptions[key] = val
+    with open(cdir / 'exceptions.tsv', encoding='utf-8') as exceptions_file:
+        for line in exceptions_file:
+            line = line.strip()
+            # allow comments and blanks
+            if line[0] == '#' or not line: continue
+            key, val = line.split('\t')
+            exceptions[key] = val
     return exceptions
 
 class Cutlet:
