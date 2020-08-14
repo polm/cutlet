@@ -58,7 +58,7 @@ SENTENCES = [
         ("ｃｕｔｌｅｔ２３", "Cutlet 23"),
         # Test some kana unks - issue #8
         ("アマガミ Sincerely Your S シンシアリーユアーズ", 
-            "Amagami Sincerely Y o u r S shinshiariiyuaazu"),
+            "Amagami Sincerely Your S shinshiariiyuaazu"),
         ("ケメコデラックス", "Kemekoderakkusu"),
         ("プププランド", "Pupupurando"),
         # Add some non-Japanese tests
@@ -83,7 +83,7 @@ SLUGS = [
         ("香川ゲーム条例、「（パブコメは）賛成多数だから採決しては」と発言したのは誰だったのか", 
             "kagawa-game-jourei-pabukome-wa-sansei-tasuu-dakara-saiketsu-shite-wa-to-hatsugen-shita-no-wa-dare-datta-no-ka"),
         ("コトヤマ「よふかしのうた」3巻発売記念のPV公開、期間限定で1巻の無料配信も", 
-            "koto-yama-yo-fukashi-no-uta-3-kan-hatsubai-kinen-no-p-v-koukai-kikan-gentei-de-1-kan-no-muryou-haishin-mo"),
+            "koto-yama-yo-fukashi-no-uta-3-maki-hatsubai-kinen-no-pv-koukai-kikan-gentei-de-1-maki-no-muryou-haishin-mo"),
         # Include some unks
         ("彁は幽霊文字", "wa-yuurei-moji"),
         ("パンダはロシア語でпанда", "panda-wa-rossiya-go-de"),
