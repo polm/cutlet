@@ -71,6 +71,8 @@ SENTENCES = [
         # Test adjective + desu
         ("赤いです", "Akai desu"),
         ("美味しいです", "Oishii desu"),
+        # Test repeated 長音符
+        ("プラトーーーン", "Puratoo--n"),
         ]
 
 SENTENCES_KUNREI = [

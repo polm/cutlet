@@ -105,6 +105,7 @@ HEPBURN = {
 'ちょ': 'cho',
 
 # symbols
+'ー': '-', # 長音符, only used when repeated
 '。': '.',
 '、': ',',
 '？': '?',
