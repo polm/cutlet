@@ -93,6 +93,34 @@ HEPBURN = {
 'ぇ':'e',
 'ぉ':'o',
 
+# unusual sutegana
+# These are mostly associated with Ainu or Taiwanese
+# https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%83%8C%E8%AA%9E%E4%BB%AE%E5%90%8D
+# https://ja.wikipedia.org/wiki/%E5%8F%B0%E6%B9%BE%E8%AA%9E%E4%BB%AE%E5%90%8D
+# These romaji are probably not very good, but are included to avoid errors.
+# Improvements are welcome.
+'ゕ': 'ka',
+'ㇰ': 'k',
+'ヶ': 'ga',
+'こ': 'ko',
+'ㇱ': 'shi',
+'ㇲ': 'su',
+'ㇳ': 'to',
+'ㇴ': 'nu',
+'ㇵ': 'ha',
+'ㇶ': 'hi',
+'ㇷ': 'fu',
+'ㇸ': 'he',
+'ㇹ': 'ho',
+'ㇺ': 'mu',
+'ㇻ': 'ra',
+'ㇼ': 'ri',
+'ㇽ': 'ru',
+'ㇾ': 're',
+'ㇿ': 'ro',
+'ゎ': 'wa',
+'ㇷ゚': 'p',
+
 # digraphs
 'しゃ': 'sha',
 'しゅ': 'shu',

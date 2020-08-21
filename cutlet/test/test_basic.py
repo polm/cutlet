@@ -73,6 +73,8 @@ SENTENCES = [
         ("美味しいです", "Oishii desu"),
         # Test repeated 長音符
         ("プラトーーーン", "Puratoo--n"),
+        # Ainu kana
+        ("イタㇰ", "Itak"),
         ]
 
 SENTENCES_KUNREI = [
