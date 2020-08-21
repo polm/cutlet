@@ -95,6 +95,12 @@ NON_FOREIGN = [
         ("カツカレーは美味しい", "Katsu karee wa oishii"),
         ]
 
+import pathlib
+here = pathlib.Path(__file__).parent.absolute()
+import json
+with open(here / 'blns.json') as infile:
+    NAUGHTY = json.load(infile)
+
 @pytest.mark.parametrize('ja, roma', WORDS)
 def test_words(ja, roma):
     cut = Cutlet()
@@ -135,3 +141,9 @@ def test_romaji_non_foreign(ja, roma):
 def test_empty_string(ja, roma):
     cut = Cutlet()
     assert cut.romaji(ja) == roma
+
+@pytest.mark.parametrize('text', NAUGHTY)
+def test_naughty(text):
+    # Goal here is just to not have an exception
+    cut = Cutlet()
+    cut.romaji(text)
