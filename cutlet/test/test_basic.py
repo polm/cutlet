@@ -75,6 +75,8 @@ SENTENCES = [
         ("プラトーーーン", "Puratoo--n"),
         # Ainu kana
         ("イタㇰ", "Itak"),
+        # Whatever this is
+        ("エィッリィククワッドゥロッウ", "Irrikukuwadduro-u"),
         ]
 
 SENTENCES_KUNREI = [
