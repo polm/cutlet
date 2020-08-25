@@ -77,6 +77,8 @@ SENTENCES = [
         ("イタㇰ", "Itak"),
         # Whatever this is
         ("エィッリィククワッドゥロッウ", "Irrikukuwadduro-u"),
+        # small か
+        ("夕陽ヵ丘三号館", "Yuuhi kakyuu san goukan"),
         ]
 
 SENTENCES_KUNREI = [
