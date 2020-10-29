@@ -1,6 +1,7 @@
 import fugashi
 import jaconv
 import mojimoji
+import unicodedata
 import re
 import pathlib
 import sys
@@ -113,6 +114,8 @@ class Cutlet:
         if not text:
             return ''
 
+        # perform unicode normalization
+        text = unicodedata.normalize('NFKC', text)
         # convert all full-width alphanum to half-width, since it can go out as-is
         text = mojimoji.zen_to_han(text, kana=False)
         # replace half-width katakana with full-width

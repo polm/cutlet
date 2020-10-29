@@ -79,6 +79,8 @@ SENTENCES = [
         ("エィッリィククワッドゥロッウ", "Irrikukuwadduro-u"),
         # small か
         ("夕陽ヵ丘三号館", "Yuuhi kakyuu san goukan"),
+        # deal with combining dakuten
+        ("青い春よさらば！", "Aoi haru yo saraba!"),
         ]
 
 SENTENCES_KUNREI = [

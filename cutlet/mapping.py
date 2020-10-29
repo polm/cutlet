@@ -151,6 +151,10 @@ HEPBURN = {
 '】': ']',
 '・': '/',
 '，': ',',
+
+# other
+'゚': '', # combining handakuten by itself, just discard
+'゙': '', # combining dakuten by itself
 }
 
 KUNREISHIKI = dict(HEPBURN)
