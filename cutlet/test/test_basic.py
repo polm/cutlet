@@ -81,6 +81,8 @@ SENTENCES = [
         ("夕陽ヵ丘三号館", "Yuuhi kakyuu san goukan"),
         # deal with combining dakuten
         ("青い春よさらば！", "Aoi haru yo saraba!"),
+        # small ケ
+        ("齋藤タヶオ", "Saitou ta ke o")
         ]
 
 SENTENCES_KUNREI = [
