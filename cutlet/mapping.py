@@ -101,6 +101,7 @@ HEPBURN = {
 # Improvements are welcome.
 'ゕ': 'ka',
 'ㇰ': 'k',
+'ゖ': 'ke',
 'ヶ': 'ga',
 'こ': 'ko',
 'ㇱ': 'shi',
