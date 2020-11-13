@@ -57,7 +57,7 @@ def has_foreign_lemma(word):
 def load_exceptions():
     cdir = pathlib.Path(__file__).parent.absolute()
     exceptions = {}
-    with open(cdir / 'exceptions.tsv', encoding='utf-8') as exceptions_file:
+    with open(str(cdir / 'exceptions.tsv'), encoding='utf-8') as exceptions_file:
         for line in exceptions_file:
             line = line.strip()
             # allow comments and blanks
