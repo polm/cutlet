@@ -110,7 +110,6 @@ TITLE = [
         ('お話があります', 'Ohanashi ga Arimasu'),
         ('図書館戦争', 'Toshokan Sensou'),
         ('頑張って', 'Ganbatte'),
-        # This is kind of wrong, but it's because よ〜 is picked up as one word
         ('さらば愛しき人よ', 'Saraba Itoshiki Hito yo'),
         ('愛せよ乙女', 'Aiseyo Otome'),
         ('巴里は燃えているか', 'Paris wa Moete Iru ka'),
