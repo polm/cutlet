@@ -105,6 +105,18 @@ NON_FOREIGN = [
         ("カツカレーは美味しい", "Katsu karee wa oishii"),
         ]
 
+TITLE = [
+        ('吾輩は猫である', 'Wagahai wa Neko de Aru'),
+        ('お話があります', 'Ohanashi ga Arimasu'),
+        ('図書館戦争', 'Toshokan Sensou'),
+        ('頑張って', 'Ganbatte'),
+        # This is kind of wrong, but it's because よ〜 is picked up as one word
+        ('さらば愛しき人よ', 'Saraba Itoshiki Hito yo'),
+        ('愛せよ乙女', 'Aiseyo Otome'),
+        ('巴里は燃えているか', 'Pari wa Moete Iru ka'),
+        ]
+
+
 import pathlib
 here = pathlib.Path(__file__).parent.absolute()
 import json
@@ -143,6 +155,11 @@ def test_romaji_non_foreign(ja, roma):
     cut = Cutlet()
     cut.use_foreign_spelling = False
     assert cut.romaji(ja) == roma
+
+@pytest.mark.parametrize('ja, roma', TITLE)
+def test_romaji_title(ja, roma):
+    cut = Cutlet()
+    assert cut.romaji(ja, title=True) == roma
 
 @pytest.mark.parametrize('ja, roma', [
     (None, ''),

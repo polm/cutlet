@@ -104,12 +104,15 @@ class Cutlet:
         slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
         return slug
 
-    def romaji(self, text, capitalize=True):
+    def romaji(self, text, capitalize=True, title=False):
         """Build a complete string from input text.
 
         If `capitalize` is True, then the first letter of the text will be
         capitalized. This is typically the desired behavior if the input is a
         complete sentence.
+
+        If `title` is True, then words will be capitalized as in a book title.
+        Some parts of speech (particles, endings) will not be capitalized.
         """
         if not text:
             return ''
@@ -134,6 +137,10 @@ class Cutlet:
             if roma and out and out[-1] == 'っ':
                 out = out[:-1] + roma[0]
             if word.feature.pos2 == '固有名詞':
+                roma = roma.title()
+            if (title and 
+                word.feature.pos1 not in ('助詞', '助動詞', '接尾辞') and
+                not (pw and pw.feature.pos1 == '接頭辞')):
                 roma = roma.title()
             # handle punctuation with atypical spacing
             if word.surface in '「『':
