@@ -258,7 +258,7 @@ class Cutlet:
             return ''
 
         if kk == 'ー': # 長音符
-            if pk: return self.table[pk][-1]
+            if pk and pk in self.table: return self.table[pk][-1]
             else: return '-'
         
         if kk == 'っ':

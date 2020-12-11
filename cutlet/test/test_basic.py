@@ -82,7 +82,9 @@ SENTENCES = [
         # deal with combining dakuten
         ("青い春よさらば！", "Aoi haru yo saraba!"),
         # small ケ
-        ("齋藤タヶオ", "Saitou ta ke o")
+        ("齋藤タヶオ", "Saitou ta ke o"),
+        # っー
+        ("ずっーと", "Zu--to"),
         ]
 
 SENTENCES_KUNREI = [
