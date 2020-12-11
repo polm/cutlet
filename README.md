@@ -7,7 +7,7 @@
 
 Cutlet is a tool to convert Japanese to romaji. Check out the [interactive demo][demo]!
 
-[demo]: https://demo.cotonoha.io/cutlet
+[demo]: https://share.streamlit.io/polm/cutlet-demo/main/demo.py
 
 **issueを英語で書く必要はありません。**
 
