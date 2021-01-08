@@ -85,6 +85,12 @@ SENTENCES = [
         ("齋藤タヶオ", "Saitou ta ke o"),
         # っー
         ("ずっーと", "Zu--to"),
+        # don't add spaces around apostrophe if it wasn't there
+        ("McDonald's", "McDonald's"),
+        # Following are quote weirdness. Not good but hard to fix.
+        # An issue is that ," or .' is a single token.
+        ("It's 'delicious.'", "It's ' delicious .'"),
+        ('"Hello," he said.', '" Hello ," he said.'),
         ]
 
 SENTENCES_KUNREI = [

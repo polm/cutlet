@@ -132,6 +132,16 @@ class Cutlet:
             pw = words[wi - 1] if wi > 0 else None
             nw = words[wi + 1] if wi < len(words) - 1 else None
 
+            # handle possessive apostrophe as a special case
+            if (word.surface == "'" and
+                    (pw and not pw.white_space) and
+                    (nw and nw.char_type == 5) and
+                    not word.white_space):
+                # remove preceeding space
+                out = out[:-1]
+                out += word.surface
+                continue
+
             # resolve split verbs / adjectives
             roma = self.romaji_word(word)
             if roma and out and out[-1] == 'っ':
