@@ -134,8 +134,7 @@ class Cutlet:
 
             # handle possessive apostrophe as a special case
             if (word.surface == "'" and
-                    (pw and not pw.white_space) and
-                    (nw and nw.char_type == 5) and
+                    (nw and nw.char_type == 5 and not nw.white_space) and
                     not word.white_space):
                 # remove preceeding space
                 out = out[:-1]

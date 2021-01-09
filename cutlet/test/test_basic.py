@@ -87,6 +87,7 @@ SENTENCES = [
         ("ずっーと", "Zu--to"),
         # don't add spaces around apostrophe if it wasn't there
         ("McDonald's", "McDonald's"),
+        ("text McDonald's text", "text McDonald's text"),
         # Following are quote weirdness. Not good but hard to fix.
         # An issue is that ," or .' is a single token.
         ("It's 'delicious.'", "It's ' delicious .'"),
