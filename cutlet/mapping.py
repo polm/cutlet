@@ -1,5 +1,3 @@
-
-
 HEPBURN = {
 # single characters
 'あ':'a',
@@ -81,6 +79,7 @@ HEPBURN = {
 'ゑ':'we',
 'ゐ':'wi',
 'ゔ': 'vu',
+'ヸ': 'vi',
 
 # sutegana
 
