@@ -10,6 +10,7 @@ from .mapping import *
 
 SUTEGANA = 'ゃゅょぁぃぅぇぉ'
 PUNCT = '\'".!?(),;:-'
+ODORI = '々〃ゝゞヽゞ'
 
 SYSTEMS = {
         'hepburn': HEPBURN,
@@ -255,6 +256,24 @@ class Cutlet:
         return out
 
     def get_single_mapping(self, pk, kk, nk):
+        # handle odoriji
+        # NOTE: This is very rarely useful at present because odoriji are not
+        # left in readings for dictionary words, and we can't follow kana
+        # across word boundaries. 
+        if kk in ODORI:
+            if kk in 'ゝヽ':
+                if pk: return pk
+                else: return '' # invalid but be nice
+            if kk in 'ゞヾ': # repeat with voicing
+                if not pk: return ''
+                vv = add_dakuten(pk)
+                if vv: return self.table[vv]
+                else: return ''
+            # remaining are 々 for kanji and 〃 for symbols, but we can't
+            # infer their span reliably (or handle rendaku)
+            return ''
+        
+
         # handle digraphs
         if pk and (pk + kk) in self.table:
             return self.table[pk + kk]
@@ -262,6 +281,7 @@ class Cutlet:
             return ''
 
         if nk and nk in SUTEGANA:
+            if kk == 'っ': return '' # never valid, just ignore
             return self.table[kk][:-1] + self.table[nk]
         if kk in SUTEGANA:
             return ''

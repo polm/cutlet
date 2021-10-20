@@ -188,3 +188,12 @@ NIHONSHIKI = dict(KUNREISHIKI)
 NIHONSHIKI['ぢ'] = 'di'
 NIHONSHIKI['づ'] = 'du'
 
+UNVOICED = 'かきくけこさしすせそたちつてとはひふへほ'
+VOICED =   'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
+
+def add_dakuten(kk):
+    ii = UNVOICED.index(kk)
+    if ii is None:
+        return ii
+    return VOICED[ii]
+

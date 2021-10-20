@@ -85,13 +85,25 @@ SENTENCES = [
         ("齋藤タヶオ", "Saitou ta ke o"),
         # っー
         ("ずっーと", "Zu--to"),
+
         # don't add spaces around apostrophe if it wasn't there
         ("McDonald's", "McDonald's"),
         ("Text McDonald's text", "Text McDonald's text"),
+
         # Following are quote weirdness. Not good but hard to fix.
         # An issue is that ," or .' is a single token.
         ("It's 'delicious.'", "It's ' delicious .'"),
         ('"Hello," he said.', '" Hello ," he said.'),
+
+        # this is a very strange typo
+        ("アトランテッィク", "Atoranteku"),
+
+        # odoriji. Note at this point these rarely work properly, they mainly
+        # don't blow up.
+        ('くゞる', 'Kuguru'), # note this is actually in unidic-lite
+        ('くヽる', 'Ku ru'),
+        ('今度クヾペへ行こう', 'Kondo kugupe e ikou'), # made up word
+        ('彁々', '?'),
         ]
 
 SENTENCES_KUNREI = [
