@@ -68,7 +68,12 @@ def load_exceptions():
     return exceptions
 
 class Cutlet:
-    def __init__(self, system='hepburn'):
+    def __init__(
+            self,
+            system = 'hepburn',
+            use_foreign_spelling = True,
+            ensure_ascii = True,
+):
         # allow 'nippon' for 'nihon'
         if system == 'nippon': system = 'nihon'
         self.system = system
