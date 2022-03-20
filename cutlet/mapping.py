@@ -80,6 +80,12 @@ HEPBURN = {
 'ゐ':'wi',
 'ゔ': 'vu',
 'ヸ': 'vi',
+'ヷ': 'va',
+'わ゙': 'va',
+'ヹ': 've',
+'ゑ゙': 've',
+'ヺ': 'vo',
+'を゙': 'vo',
 
 # sutegana
 
@@ -192,8 +198,10 @@ UNVOICED = 'かきくけこさしすせそたちつてとはひふへほ'
 VOICED =   'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
 
 def add_dakuten(kk):
-    ii = UNVOICED.index(kk)
-    if ii is None:
-        return ii
-    return VOICED[ii]
+    try:
+        ii = UNVOICED.index(kk)
+        return VOICED[ii]
+    except ValueError:
+        # this is normal if the input is nonsense
+        return None
 
