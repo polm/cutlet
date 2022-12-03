@@ -194,3 +194,10 @@ def test_naughty(text):
     # Goal here is just to not have an exception
     cut = Cutlet()
     cut.romaji(text)
+
+def test_update_mapping():
+    cut = Cutlet()
+    assert cut.romaji("お茶漬け") == "Ochazuke"
+    cut.update_mapping("づ", "du")
+    assert cut.romaji("お茶漬け") == "Ochaduke"
+
