@@ -40,7 +40,7 @@ Cutlet can be installed through pip as usual.
 
 Note that if you don't have a MeCab dictionary installed you'll also have to
 install one. If you're just getting started
-[unidic-lite](https://github.com/polm/unidic-lite) is probably fine. 
+[unidic-lite](https://github.com/polm/unidic-lite) is a good choice.
 
     pip install unidic-lite
 

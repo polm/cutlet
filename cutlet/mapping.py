@@ -198,6 +198,7 @@ UNVOICED = 'かきくけこさしすせそたちつてとはひふへほ'
 VOICED =   'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
 
 def add_dakuten(kk):
+    """Given a kana (single-character string), add a dakuten."""
     try:
         ii = UNVOICED.index(kk)
         return VOICED[ii]

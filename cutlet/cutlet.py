@@ -20,20 +20,24 @@ SYSTEMS = {
 
 if sys.version_info >= (3, 7):
     def is_ascii(s):
+        """Check if a given string is ASCII."""
         return s.isascii()
 else:
     def is_ascii(s):
+        """Check if a given string is ASCII."""
+        # this version is for old Pythons
         for c in s: 
             if c > '\x7f': 
                 return False 
         return True 
 
 def has_foreign_lemma(word):
-    """Check if a word has a foreign lemma.
+    """Check if a word (node) has a foreign lemma.
 
-    This doesn't get its own field, the lemma field is overloaded. There are
-    also cases where the lemma field is overloaded with non-foreign-lemma
-    information."""
+    In UniDic, these lemmas don't get their own field, instead the lemma field
+    is overloaded. There are also cases where the lemma field is overloaded
+    with non-foreign-lemma information.
+    """
 
     if '-' in word.surface: 
         # TODO check if this is actually possible in vanilla unidic
@@ -51,11 +55,12 @@ def has_foreign_lemma(word):
     cand = lemma.split('-')[-1]
     # NOTE: some words have 外国 instead of a foreign spelling. ジル
     # (Jill?) is an example. Unclear why this is the case.
-    # NOTE: There are other hyphenated lemmas, like 私-代名詞. 
+    # There are other hyphenated lemmas, like 私-代名詞.
     if is_ascii(cand):
         return True
 
 def load_exceptions():
+    """Load list of exceptions from included data file."""
     cdir = pathlib.Path(__file__).parent.absolute()
     exceptions = {}
     with open(cdir / 'exceptions.tsv', encoding='utf-8') as exceptions_file:
@@ -74,6 +79,28 @@ class Cutlet:
             use_foreign_spelling = True,
             ensure_ascii = True,
 ):
+        """Create a Cutlet object, which holds configuration as well as
+        tokenizer state.
+
+        `system` is `hepburn` by default, and may also be `kunrei` or
+        `nihon`. `nippon` is permitted as a synonym for `nihon`.
+
+        If `use_foreign_spelling` is true, output will use the foreign spelling
+        provided in a UniDic lemma when available. For example, "カツ" will
+        become "cutlet" instead of "katsu".
+
+        If `ensure_ascii` is true, any non-ASCII characters that can't be
+        romanized will be replaced with `?`. If false, they will be passed
+        through.
+
+        Typical usage:
+
+        ```python
+        katsu = Cutlet()
+        roma = katsu.romaji("カツカレーを食べた")
+        # "Cutlet curry wo tabeta"
+        ```
+        """
         # allow 'nippon' for 'nihon'
         if system == 'nippon': system = 'nihon'
         self.system = system
@@ -87,6 +114,7 @@ class Cutlet:
         self.tagger = fugashi.Tagger()
         self.exceptions = load_exceptions()
 
+        # these are too minor to be worth exposing as arguments
         self.use_tch = (self.system in ('hepburn',))
         self.use_wa  = (self.system in ('hepburn', 'kunrei'))
         self.use_he  = (self.system in ('nihon',))
@@ -96,16 +124,32 @@ class Cutlet:
         self.ensure_ascii = True
 
     def add_exception(self, key, val):
+        """Add an exception to the internal list.
+
+        An exception overrides a whole token, for example to replace "Toukyou"
+        with "Tokyo". Note that it must match the tokenizer output and be a
+        single token to work. To replace longer phrases, you'll need to use a
+        different strategy, like string replacement.
+        """
         self.exceptions[key] = val
 
     def update_mapping(self, key, val):
-        """Update mapping table.
+        """Update mapping table for a single kana.
 
-        This can be used to mix common systems, or to modify particular details.
+        This can be used to mix common systems, or to modify particular
+        details. For example, you can use `update_mapping("ぢ", "di")` to
+        differentiate ぢ and じ in Hepburn.
         """
         self.table[key] = val
 
     def slug(self, text):
+        """Generate a URL-friendly slug.
+
+        After converting the input to romaji using `Cutlet.romaji` and making
+        the result lower-case, any runs of non alpha-numeric characters are
+        replaced with a single hyphen. Any leading or trailing hyphens are
+        stripped.
+        """
         roma = self.romaji(text).lower()
         slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
         return slug
@@ -113,12 +157,13 @@ class Cutlet:
     def romaji(self, text, capitalize=True, title=False):
         """Build a complete string from input text.
 
-        If `capitalize` is True, then the first letter of the text will be
+        If `capitalize` is true, then the first letter of the text will be
         capitalized. This is typically the desired behavior if the input is a
         complete sentence.
 
-        If `title` is True, then words will be capitalized as in a book title.
-        Some parts of speech (particles, endings) will not be capitalized.
+        If `title` is true, then words will be capitalized as in a book title.
+        This means most words will be capitalized, but some parts of speech
+        (particles, endings) will not.
         """
         if not text:
             return ''
@@ -199,7 +244,7 @@ class Cutlet:
         return out
 
     def romaji_word(self, word):
-        """Word is a fugashi node, return a string"""
+        """Return the romaji for a single word (node)."""
 
         if word.surface in self.exceptions:
             return self.exceptions[word.surface]
@@ -253,6 +298,11 @@ class Cutlet:
             return word.surface
 
     def map_kana(self, kana):
+        """Given a list of kana, convert them to romaji.
+
+        The exact romaji resulting from a kana sequence depend on the preceding
+        or following kana, so this handles that conversion.
+        """
         out = ''
         for ki, char in enumerate(kana):
             nk = kana[ki + 1] if ki < len(kana) - 1 else None
@@ -261,6 +311,7 @@ class Cutlet:
         return out
 
     def get_single_mapping(self, pk, kk, nk):
+        """Given a single kana and its neighbors, return the mapped romaji."""
         # handle odoriji
         # NOTE: This is very rarely useful at present because odoriji are not
         # left in readings for dictionary words, and we can't follow kana
@@ -310,4 +361,3 @@ class Cutlet:
             else: return 'n'
 
         return self.table[kk]
-
