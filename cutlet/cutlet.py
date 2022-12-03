@@ -139,6 +139,15 @@ class Cutlet:
         This can be used to mix common systems, or to modify particular
         details. For example, you can use `update_mapping("ぢ", "di")` to
         differentiate ぢ and じ in Hepburn.
+
+        Example usage:
+
+        ```
+        cut = Cutlet()
+        cut.romaji("お茶漬け") # Ochazuke
+        cut.update_mapping("づ", "du")
+        cut.romaji("お茶漬け") # Ochaduke
+        ```
         """
         self.table[key] = val
 
