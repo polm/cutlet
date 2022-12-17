@@ -13,6 +13,11 @@ SUTEGANA = 'ゃゅょぁぃぅぇぉ'
 PUNCT = '\'".!?(),;:-'
 ODORI = '々〃ゝゞヽゞ'
 
+# MeCab character types; see char.def
+CHAR_ALPHA = 5
+CHAR_HIRAGANA = 6
+CHAR_KATAKANA = 7
+
 SYSTEMS = {
         'hepburn': HEPBURN,
         'kunrei': KUNREISHIKI,
@@ -205,7 +210,7 @@ class Cutlet:
 
             # handle possessive apostrophe as a special case
             if (word.surface == "'" and
-                    (nw and nw.char_type == 5 and not nw.white_space) and
+                    (nw and nw.char_type == CHAR_ALPHA and not nw.white_space) and
                     not word.white_space):
                 # remove preceeding space
                 if po:
@@ -306,7 +311,7 @@ class Cutlet:
             # at this point is is presumably an unk
             # Check character type using the values defined in char.def. 
             # This is constant across unidic versions so far but not guaranteed.
-            if word.char_type == 6 or word.char_type == 7: # hiragana/katakana
+            if word.char_type in (CHAR_HIRAGANA, CHAR_KATAKANA):
                 kana = jaconv.kata2hira(word.surface)
                 return self.map_kana(kana)
 
