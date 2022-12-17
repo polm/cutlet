@@ -65,6 +65,24 @@ def has_foreign_lemma(word):
     if is_ascii(cand):
         return True
 
+def normalize_text(text):
+    """Given text, normalize variations in Japanese.
+
+    This specifically removes variations that are meaningless for romaji
+    conversion using the following steps:
+
+    - Unicode NFKC normalization
+    - Full-width Latin to half-width
+    - Half-width katakana to full-width
+    """
+    # perform unicode normalization
+    text = unicodedata.normalize('NFKC', text)
+    # convert all full-width alphanum to half-width, since it can go out as-is
+    text = mojimoji.zen_to_han(text, kana=False)
+    # replace half-width katakana with full-width
+    text = mojimoji.han_to_zen(text, digit=False, ascii=False)
+    return text
+
 def load_exceptions():
     """Load list of exceptions from included data file."""
     cdir = pathlib.Path(__file__).parent.absolute()
@@ -178,8 +196,8 @@ class Cutlet:
         slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
         return slug
 
-    def romaji_tokens(self, text, capitalize=True, title=False):
-        """Build a list of tokens from input text.
+    def romaji_tokens(self, words, capitalize=True, title=False):
+        """Build a list of tokens from input nodes.
 
         If `capitalize` is true, then the first letter of the first token will be
         capitalized. This is typically the desired behavior if the input is a
@@ -189,17 +207,6 @@ class Cutlet:
         This means most words will be capitalized, but some parts of speech
         (particles, endings) will not.
         """
-        if not text:
-            return ''
-
-        # perform unicode normalization
-        text = unicodedata.normalize('NFKC', text)
-        # convert all full-width alphanum to half-width, since it can go out as-is
-        text = mojimoji.zen_to_han(text, kana=False)
-        # replace half-width katakana with full-width
-        text = mojimoji.han_to_zen(text, digit=False, ascii=False)
-
-        words = self.tagger(text)
 
         out = []
 
@@ -290,7 +297,13 @@ class Cutlet:
         This means most words will be capitalized, but some parts of speech
         (particles, endings) will not.
         """
-        tokens = self.romaji_tokens(text, capitalize, title)
+        if not text:
+            return ''
+
+        text = normalize_text(text)
+        words = self.tagger(text)
+
+        tokens = self.romaji_tokens(words, capitalize, title)
         out = ''.join([str(tok) for tok in tokens]).strip()
         return out
 
