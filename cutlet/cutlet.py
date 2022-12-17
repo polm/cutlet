@@ -206,6 +206,11 @@ class Cutlet:
         If `title` is true, then words will be capitalized as in a book title.
         This means most words will be capitalized, but some parts of speech
         (particles, endings) will not.
+
+        If the text was not normalized before being tokenized, the output is
+        undefined. For details of normalization, see `normalize_text`.
+
+        The number of output tokens will equal the number of input nodes.
         """
 
         out = []
