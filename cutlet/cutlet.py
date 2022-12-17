@@ -5,6 +5,7 @@ import unicodedata
 import re
 import pathlib
 import sys
+from dataclasses import dataclass
 
 from .mapping import *
 
@@ -71,6 +72,15 @@ def load_exceptions():
             key, val = line.split('\t')
             exceptions[key] = val
     return exceptions
+
+@dataclass
+class Token:
+    surface: str
+    space: bool # if a space should follow
+
+    def __str__(self):
+        sp = " " if self.space else ""
+        return f"{self.surface}{sp}"
 
 class Cutlet:
     def __init__(
@@ -163,10 +173,10 @@ class Cutlet:
         slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
         return slug
 
-    def romaji(self, text, capitalize=True, title=False):
-        """Build a complete string from input text.
+    def romaji_tokens(self, text, capitalize=True, title=False):
+        """Build a list of tokens from input text.
 
-        If `capitalize` is true, then the first letter of the text will be
+        If `capitalize` is true, then the first letter of the first token will be
         capitalized. This is typically the desired behavior if the input is a
         complete sentence.
 
@@ -186,9 +196,10 @@ class Cutlet:
 
         words = self.tagger(text)
 
-        out = ''
+        out = []
 
         for wi, word in enumerate(words):
+            po = out[-1] if out else None
             pw = words[wi - 1] if wi > 0 else None
             nw = words[wi + 1] if wi < len(words) - 1 else None
 
@@ -197,31 +208,39 @@ class Cutlet:
                     (nw and nw.char_type == 5 and not nw.white_space) and
                     not word.white_space):
                 # remove preceeding space
-                out = out[:-1]
-                out += word.surface
+                if po:
+                    po.space = False
+                out.append(Token(word.surface, False))
                 continue
 
             # resolve split verbs / adjectives
             roma = self.romaji_word(word)
-            if roma and out and out[-1] == 'っ':
-                out = out[:-1] + roma[0]
+            if roma and po and po.surface and po.surface[-1] == 'っ':
+                po.surface = po.surface[:-1] + roma[0]
             if word.feature.pos2 == '固有名詞':
                 roma = roma.title()
             if (title and 
                 word.feature.pos1 not in ('助詞', '助動詞', '接尾辞') and
                 not (pw and pw.feature.pos1 == '接頭辞')):
                 roma = roma.title()
+
+            tok = Token(roma, False)
             # handle punctuation with atypical spacing
             if word.surface in '「『':
-                out += ' ' + roma
+                if po:
+                    po.space = True
+                out.append(tok)
                 continue
             if roma in '([':
-                out += ' ' + roma
+                if po:
+                    po.space = True
+                out.append(tok)
                 continue
             if roma == '/':
-                out += '/'
+                out.append(tok)
                 continue
-            out += roma
+
+            out.append(tok)
 
             # no space sometimes
             # お酒 -> osake
@@ -241,15 +260,33 @@ class Cutlet:
                    and nw.feature.pos1 == '助動詞'
                    and nw.surface != 'です'):
                 continue
-            out += ' '
+
+            # if we get here, it does need a space
+            tok.space = True
+
         # remove any leftover っ
-        out = out.replace('っ', '').strip()
+        for tok in out:
+            tok.surface = tok.surface.replace("っ", "")
+
         # capitalize the first letter
-        if capitalize and len(out) > 0:
-            tmp = out[0].capitalize()
-            if len(out) > 1:
-                tmp += out[1:]
-            out = tmp
+        if capitalize and out and out[0].surface:
+            ss = out[0].surface
+            out[0].surface = ss[0].capitalize() + ss[1:]
+        return out
+
+    def romaji(self, text, capitalize=True, title=False):
+        """Build a complete string from input text.
+
+        If `capitalize` is true, then the first letter of the text will be
+        capitalized. This is typically the desired behavior if the input is a
+        complete sentence.
+
+        If `title` is true, then words will be capitalized as in a book title.
+        This means most words will be capitalized, but some parts of speech
+        (particles, endings) will not.
+        """
+        tokens = self.romaji_tokens(text, capitalize, title)
+        out = ''.join([str(tok) for tok in tokens]).strip()
         return out
 
     def romaji_word(self, word):
