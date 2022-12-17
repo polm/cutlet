@@ -1,5 +1,6 @@
 import pytest
-from cutlet import Cutlet
+from cutlet import Cutlet, normalize_text
+from fugashi import Tagger
 from hypothesis import given
 from hypothesis.strategies import from_regex
 
@@ -19,4 +20,11 @@ def test_no_exception(ss):
     cutlet.romaji(ss)
 
 
-
+@given(from_regex(JAREGEX))
+def test_node_count_match(ss):
+    tagger = Tagger()
+    cutlet = Cutlet()
+    text = normalize_text(ss)
+    nodes = tagger(text)
+    tokens = cutlet.romaji_tokens(nodes)
+    assert len(nodes) == len(tokens), "Number of output tokens doesn't match input"
