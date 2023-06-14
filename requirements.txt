@@ -1,0 +1,11 @@
+attrs==23.1.0
+fugashi==1.2.1
+hypothesis==6.78.2
+iniconfig==2.0.0
+jaconv==0.3.4
+mojimoji==0.0.12
+packaging==23.1
+pluggy==1.0.0
+pytest==7.3.2
+sortedcontainers==2.4.0
+unidic-lite==1.0.8
