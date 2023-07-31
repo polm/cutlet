@@ -120,8 +120,8 @@ class Cutlet:
         self.use_he  = (self.system in ('nihon',))
         self.use_wo  = (self.system in ('hepburn', 'nihon'))
 
-        self.use_foreign_spelling = True
-        self.ensure_ascii = True
+        self.use_foreign_spelling = use_foreign_spelling
+        self.ensure_ascii = ensure_ascii
 
     def add_exception(self, key, val):
         """Add an exception to the internal list.
