@@ -26,10 +26,10 @@ else:
     def is_ascii(s):
         """Check if a given string is ASCII."""
         # this version is for old Pythons
-        for c in s: 
-            if c > '\x7f': 
-                return False 
-        return True 
+        for c in s:
+            if c > '\x7f':
+                return False
+        return True
 
 def has_foreign_lemma(word):
     """Check if a word (node) has a foreign lemma.
@@ -39,7 +39,7 @@ def has_foreign_lemma(word):
     with non-foreign-lemma information.
     """
 
-    if '-' in word.surface: 
+    if '-' in word.surface:
         # TODO check if this is actually possible in vanilla unidic
         return False
 
@@ -207,7 +207,7 @@ class Cutlet:
                 out = out[:-1] + roma[0]
             if word.feature.pos2 == '固有名詞':
                 roma = roma.title()
-            if (title and 
+            if (title and
                 word.feature.pos1 not in ('助詞', '助動詞', '接尾辞') and
                 not (pw and pw.feature.pos1 == '接頭辞')):
                 roma = roma.title()
@@ -233,7 +233,7 @@ class Cutlet:
             # 思えば -> omoeba
             if nw and nw.feature.pos2 in ('接続助詞'): continue
             # 333 -> 333 ; this should probably be handled in mecab
-            if (word.surface.isdigit() and 
+            if (word.surface.isdigit() and
                     nw and nw.surface.isdigit()):
                 continue
             # そうでした -> sou deshita
@@ -267,7 +267,7 @@ class Cutlet:
         # deal with unks first
         if word.is_unk:
             # at this point is is presumably an unk
-            # Check character type using the values defined in char.def. 
+            # Check character type using the values defined in char.def.
             # This is constant across unidic versions so far but not guaranteed.
             if word.char_type == 6 or word.char_type == 7: # hiragana/katakana
                 kana = jaconv.kata2hira(word.surface)
@@ -285,16 +285,16 @@ class Cutlet:
         if word.feature.pos1 == '補助記号':
             # If it's punctuation we don't recognize, just discard it
             return self.table.get(word.surface, '')
-        elif (self.use_wa and 
+        elif (self.use_wa and
                 word.feature.pos1 == '助詞' and word.feature.pron == 'ワ'):
             return 'wa'
-        elif (not self.use_he and 
+        elif (not self.use_he and
                 word.feature.pos1 == '助詞' and word.feature.pron == 'エ'):
             return 'e'
-        elif (not self.use_wo and 
+        elif (not self.use_wo and
                 word.feature.pos1 == '助詞' and word.feature.pron == 'オ'):
             return 'o'
-        elif (self.use_foreign_spelling and 
+        elif (self.use_foreign_spelling and
                 has_foreign_lemma(word)):
             # this is a foreign word with known spelling
             return word.feature.lemma.split('-')[-1]
@@ -324,7 +324,7 @@ class Cutlet:
         # handle odoriji
         # NOTE: This is very rarely useful at present because odoriji are not
         # left in readings for dictionary words, and we can't follow kana
-        # across word boundaries. 
+        # across word boundaries.
         if kk in ODORI:
             if kk in 'ゝヽ':
                 if pk: return pk
@@ -337,7 +337,7 @@ class Cutlet:
             # remaining are 々 for kanji and 〃 for symbols, but we can't
             # infer their span reliably (or handle rendaku)
             return ''
-        
+
 
         # handle digraphs
         if pk and (pk + kk) in self.table:
@@ -354,13 +354,13 @@ class Cutlet:
         if kk == 'ー': # 長音符
             if pk and pk in self.table: return self.table[pk][-1]
             else: return '-'
-        
+
         if kk == 'っ':
             if nk:
                 if self.use_tch and nk == 'ち': return 't'
                 elif nk in 'あいうえおっ': return '-'
                 else: return self.table[nk][0] # first character
-            else: 
+            else:
                 # seems like it should never happen, but 乗っ|た is two tokens
                 # so leave this as is and pick it up at the word level
                 return 'っ'
