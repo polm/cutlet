@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10"]
+        python-version: [3.7, 3.8, 3.9, "3.10", "3.11"]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install deps
@@ -24,13 +24,13 @@ jobs:
       run: |
         pytest
     - name: Publish to PyPI if tagged
-      if: startsWith(github.ref, 'refs/tags') && matrix.python-version == 3.8
+      if: startsWith(github.ref, 'refs/tags') && matrix.python-version == 3.10
       env:
-        TWINE_USERNAME: "23"
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: |
         python -m pip install --upgrade pip
-        pip install twine setuptools-scm
-        python setup.py sdist
+        pip install twine setuptools-scm build
+        python -m build
         twine upload dist/cutlet*.tar.gz
 
