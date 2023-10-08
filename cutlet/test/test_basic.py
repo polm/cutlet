@@ -1,5 +1,5 @@
 import pytest
-from cutlet import Cutlet
+from cutlet import Cutlet, normalize_text
 
 
 # Note that if there are multiple words, only the first is used
@@ -201,3 +201,19 @@ def test_update_mapping():
     cut.update_mapping("づ", "du")
     assert cut.romaji("お茶漬け") == "Ochaduke"
 
+@pytest.mark.parametrize('text, roma', SENTENCES)
+def test_romaji_tokens(text, roma):
+    cut = Cutlet()
+    toks = cut.tagger(normalize_text(text))
+    res = cut.romaji_tokens(toks)
+
+    assert len(toks) == len(res), "Output length doesn't match input length"
+
+    rendered = ''
+    for tt in res:
+        rendered += tt.surface
+        if tt.space:
+            rendered += ' '
+    rendered = rendered.strip()
+
+    assert rendered == cut.romaji(text), "Token input diverged"
