@@ -111,6 +111,7 @@ class Cutlet:
             system = 'hepburn',
             use_foreign_spelling = True,
             ensure_ascii = True,
+            mecab_args = "",
 ):
         """Create a Cutlet object, which holds configuration as well as
         tokenizer state.
@@ -144,7 +145,7 @@ class Cutlet:
             print("unknown system: {}".format(system))
             raise
 
-        self.tagger = fugashi.Tagger()
+        self.tagger = fugashi.Tagger(mecab_args)
         self.exceptions = load_exceptions()
 
         # these are too minor to be worth exposing as arguments
