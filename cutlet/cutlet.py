@@ -24,19 +24,6 @@ SYSTEMS = {
         'nihon': NIHONSHIKI,
 }
 
-if sys.version_info >= (3, 7):
-    def is_ascii(s):
-        """Check if a given string is ASCII."""
-        return s.isascii()
-else:
-    def is_ascii(s):
-        """Check if a given string is ASCII."""
-        # this version is for old Pythons
-        for c in s:
-            if c > '\x7f':
-                return False
-        return True
-
 def has_foreign_lemma(word):
     """Check if a word (node) has a foreign lemma.
 
@@ -62,7 +49,7 @@ def has_foreign_lemma(word):
     # NOTE: some words have 外国 instead of a foreign spelling. ジル
     # (Jill?) is an example. Unclear why this is the case.
     # There are other hyphenated lemmas, like 私-代名詞.
-    if is_ascii(cand):
+    if cand.isascii():
         return True
 
 def normalize_text(text):
@@ -322,7 +309,7 @@ class Cutlet:
         if word.surface.isdigit():
             return word.surface
 
-        if is_ascii(word.surface):
+        if word.surface.isascii():
             return word.surface
 
         # deal with unks first
