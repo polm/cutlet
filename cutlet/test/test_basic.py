@@ -136,6 +136,10 @@ TITLE = [
         ('巴里は燃えているか', 'Paris wa Moete Iru ka'),
         ]
 
+FOREIGN_TOKEN_FEATURE = [
+        ("カツカレーは美味しい", [True, True, False, False]),
+        ]
+
 
 import pathlib
 here = pathlib.Path(__file__).parent.absolute()
@@ -217,3 +221,11 @@ def test_romaji_tokens(text, roma):
     rendered = rendered.strip()
 
     assert rendered == cut.romaji(text), "Token input diverged"
+
+@pytest.mark.parametrize('text, is_foreign', FOREIGN_TOKEN_FEATURE)
+def test_foreign_token_feature(text, is_foreign):
+    cut = Cutlet()
+    toks = cut.tagger(normalize_text(text))
+    res = cut.romaji_tokens(toks)
+    for tok, gold in zip(res, is_foreign):
+        assert tok.foreign == gold, "Token's `foreign` feature is wrong"
