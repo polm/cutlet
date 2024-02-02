@@ -1,4 +1,4 @@
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/polm/cutlet-demo/main/demo.py)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://polm-cutlet-demo-demo-0tur8v.streamlit.app/)
 [![Current PyPI packages](https://badge.fury.io/py/cutlet.svg)](https://pypi.org/project/cutlet/)
 
 # cutlet
@@ -7,7 +7,7 @@
 
 Cutlet is a tool to convert Japanese to romaji. Check out the [interactive demo][demo]! Also see the [docs](https://polm.github.io/cutlet/cutlet.html) and the [original blog post](https://www.dampfkraft.com/nlp/cutlet-python-romaji-converter.html). 
 
-[demo]: https://share.streamlit.io/polm/cutlet-demo/main/demo.py
+[demo]: https://polm-cutlet-demo-demo-0tur8v.streamlit.app/
 
 **issueを英語で書く必要はありません。**
 
