@@ -87,6 +87,8 @@ def load_exceptions():
 class Token:
     surface: str
     space: bool # if a space should follow
+    # whether this comes from a foreign lemma
+    foreign: bool = False
 
     def __str__(self):
         sp = " " if self.space else ""
@@ -229,7 +231,8 @@ class Cutlet:
                 not (pw and pw.feature.pos1 == '接頭辞')):
                 roma = roma.title()
 
-            tok = Token(roma, False)
+            foreign = self.use_foreign_spelling and has_foreign_lemma(word)
+            tok = Token(roma, False, foreign)
             # handle punctuation with atypical spacing
             if word.surface in '「『':
                 if po:
