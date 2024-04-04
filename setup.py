@@ -21,8 +21,12 @@ setup(name='cutlet',
       classifiers=[
           "License :: OSI Approved :: MIT License",
           "Natural Language :: Japanese",
+          "Programming Language :: Python :: 3.8"
+          "Programming Language :: Python :: 3.9"
+          "Programming Language :: Python :: 3.10"
+          "Programming Language :: Python :: 3.11"
           ],
-      python_requires='>=3.5',
+      python_requires='>=3.8',
       package_data={'cutlet':['exceptions.tsv']},
       entry_points={
           "console_scripts": [
