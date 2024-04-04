@@ -2,3 +2,6 @@ env/
 __pycache__
 *.egg-info
 dist/
+
+# Built documentation artifacts that are not meant to be committed, cf. .github/workflows/docs.yml
+docs/
