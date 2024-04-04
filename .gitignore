@@ -1,4 +1,15 @@
 env/
+.venv/
 __pycache__
 *.egg-info
 dist/
+
+# Lock file
+poetry.lock
+
+# Tests
+.hypothesis/
+.pytest_cache/
+
+# Built documentation artifacts that are not meant to be committed, cf. .github/workflows/docs.yml
+docs/

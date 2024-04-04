@@ -1,6 +1,41 @@
-[build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=3.4"]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "cutlet"
+version = "0.4.0"
+description = "Romaji converter"
+authors = ["Paul O'Leary McCann <polm@dampfkraft.com>"]
+repository = "https://github.com/polm/cutlet"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Japanese"
+]
+include = ["cutlet/exceptions.tsv"]
 
-[tool.setuptools_scm]
-# apparently it is OK to make this blank
+[tool.poetry.dependencies]
+python = "^3.8"
+jaconv = "*"
+fugashi = "*"
+mojimoji = "*"
+
+[tool.poetry.extras]
+unidic-lite = ["unidic-lite"]
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+hypothesis = "*"
+unidic-lite = "*"
+pdoc = "*"
+
+[tool.poetry.scripts]
+cutlet = "cutlet.cli:main"
+
+[tool.pytest.ini_options]
+disable_test_id_escaping_and_forfeit_all_rights_to_community_support = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

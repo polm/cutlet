@@ -1,0 +1,24 @@
+name: Build and publish artifacts (sdist and wheels)
+
+on:
+    push:
+      tags:
+        - 'v[0-9]+.[0-9]+.[0-9]+'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Install poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: 1.8.2
+    - name: Build and publish to PyPI
+      env:
+        POETRY_HTTP_BASIC_PYPI_USERNAME: __token__
+        POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: poetry publish --build

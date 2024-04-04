@@ -95,3 +95,10 @@ nkatu.romaji(sent)
 - [kuroshiro](https://github.com/hexenq/kuroshiro): Javascript based.
 - [kana](https://github.com/gojp/kana): Go based.
 
+## Contributing
+
+This project uses [Poetry](https://python-poetry.org/).
+- Run `poetry install --with dev` to install dev dependencies.
+- Run `poetry run pytest -v` to run test suite.
+
+If you want to locally build documentation, you can run `poetry run pdoc -o docs/ --logo https://github.com/polm/cutlet/raw/master/cutlet.png cutlet`, documentation artifacts will be created in docs/ folder.
