@@ -33,4 +33,5 @@ jobs:
         pip install twine setuptools-scm build
         python -m build
         twine upload dist/cutlet*.tar.gz
+        twine upload dist/cutlet*.whl
 
