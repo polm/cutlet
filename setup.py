@@ -22,7 +22,7 @@ setup(name='cutlet',
           "License :: OSI Approved :: MIT License",
           "Natural Language :: Japanese",
           ],
-      python_requires='>=3.5',
+      python_requires='>=3.8',
       package_data={'cutlet':['exceptions.tsv']},
       entry_points={
           "console_scripts": [
