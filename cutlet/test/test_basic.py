@@ -101,6 +101,9 @@ SENTENCES = [
     ("くヽる", "Ku ru"),
     ("今度クヾペへ行こう", "Kondo kugupe e ikou"),  # made up word
     ("彁々", "?"),
+    # prefixes, see #56
+    ("ビオハザード", "Bio-hazard"),
+    ("イントラワード", "Intra-word"),
 ]
 
 SENTENCES_KUNREI = [
