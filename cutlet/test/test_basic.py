@@ -104,6 +104,9 @@ SENTENCES = [
     # prefixes, see #56
     ("ビオハザード", "Bio-hazard"),
     ("イントラワード", "Intra-word"),
+    # ascii whitespace, see #65
+    ("[04:30.748]", "[04:30.748]"),
+    (".big,bad bog", ".big,bad bog"),
 ]
 
 SENTENCES_KUNREI = [
