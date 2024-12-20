@@ -248,6 +248,13 @@ class Cutlet:
                 out.append(tok)
                 continue
 
+            # preserve spaces between ascii tokens
+            if (word.surface.isascii() and
+                nw and nw.surface.isascii()):
+                use_space = bool(nw.white_space)
+                out.append(Token(word.surface, use_space))
+                continue
+
             out.append(tok)
 
             # no space sometimes
