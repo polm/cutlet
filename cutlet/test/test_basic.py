@@ -46,7 +46,7 @@ SENTENCES = [
         "Kouso to wa, seitai de okoru kagaku hannou ni taishite shokubai to shite kinou suru bunshi de aru.",
     ),
     ("ホッピーは元祖ビアテイスト清涼飲料水です", "Hoppy wa ganso beer taste seiryou inryousui desu"),
-    ("東京タワーの高さは333mです", "Tokyo tower no takasa wa 333 m desu"),
+    ("東京タワーの高さは333mです", "Tokyo tower no takasa wa 333m desu"),
     (
         "国立国語研究所（NINJAL）は，日本語学・言語学・日本語教育研究を中心とした研究機関です。",
         "Kokuritsu kokugo kenkyuusho (NINJAL) wa, Nippon gogaku/gengogaku/Nippon go kyouiku kenkyuu wo chuushin to shita kenkyuu kikan desu.",
@@ -57,7 +57,7 @@ SENTENCES = [
     ("《月》", "(gatsu)"),  # issue #7, unfamiliar punctuation
     ("２ 【電子版特典付】", "2 [denshi ban tokutentsuke]"),  # issue #7
     # This looks weird but MeCab tokenizes at alpha-num barriers
-    ("ｃｕｔｌｅｔ２３", "Cutlet 23"),
+    ("ｃｕｔｌｅｔ２３", "Cutlet23"),
     # Test some kana unks - issue #8
     ("アマガミ Sincerely Your S シンシアリーユアーズ", "Amagami Sincerely Your S shinshiariiyuaazu"),
     ("ケメコデラックス", "Kemekoderakkusu"),
@@ -91,8 +91,8 @@ SENTENCES = [
     ("Text McDonald's text", "Text McDonald's text"),
     # Following are quote weirdness. Not good but hard to fix.
     # An issue is that ," or .' is a single token.
-    ("It's 'delicious.'", "It's ' delicious .'"),
-    ('"Hello," he said.', '" Hello ," he said.'),
+    ("It's 'delicious.'", "It's 'delicious.'"),
+    ('"Hello," he said.', '"Hello," he said.'),
     # this is a very strange typo
     ("アトランテッィク", "Atoranteku"),
     # odoriji. Note at this point these rarely work properly, they mainly
