@@ -45,7 +45,7 @@ def has_foreign_lemma(word):
     if not '-' in lemma:
         return False
 
-    cand = lemma.split('-')[-1]
+    cand = lemma.split('-', 1)[-1]
     # NOTE: some words have 外国 instead of a foreign spelling. ジル
     # (Jill?) is an example. Unclear why this is the case.
     # There are other hyphenated lemmas, like 私-代名詞.
@@ -257,6 +257,8 @@ class Cutlet:
             if nw and nw.feature.pos1 in ('補助記号', '接尾辞'): continue
             # special case for half-width commas
             if nw and nw.surface == ',': continue
+            # special case for prefixes
+            if foreign and roma[-1] == "-": continue
             # 思えば -> omoeba
             if nw and nw.feature.pos2 in ('接続助詞'): continue
             # 333 -> 333 ; this should probably be handled in mecab
@@ -348,7 +350,7 @@ class Cutlet:
         elif (self.use_foreign_spelling and
                 has_foreign_lemma(word)):
             # this is a foreign word with known spelling
-            return word.feature.lemma.split('-')[-1]
+            return word.feature.lemma.split('-', 1)[-1]
         elif word.feature.kana:
             # for known words
             kana = jaconv.kata2hira(word.feature.kana)
