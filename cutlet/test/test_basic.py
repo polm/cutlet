@@ -56,7 +56,6 @@ SENTENCES = [
     ("私はテストです", "Watakushi wa test desu"),  # issue #4, 私 -> 代名詞
     ("《月》", "(gatsu)"),  # issue #7, unfamiliar punctuation
     ("２ 【電子版特典付】", "2 [denshi ban tokutentsuke]"),  # issue #7
-    # This looks weird but MeCab tokenizes at alpha-num barriers
     ("ｃｕｔｌｅｔ２３", "Cutlet23"),
     # Test some kana unks - issue #8
     ("アマガミ Sincerely Your S シンシアリーユアーズ", "Amagami Sincerely Your S shinshiariiyuaazu"),
@@ -89,14 +88,12 @@ SENTENCES = [
     # don't add spaces around apostrophe if it wasn't there
     ("McDonald's", "McDonald's"),
     ("Text McDonald's text", "Text McDonald's text"),
-    # Following are quote weirdness. Not good but hard to fix.
-    # An issue is that ," or .' is a single token.
     ("It's 'delicious.'", "It's 'delicious.'"),
     ('"Hello," he said.', '"Hello," he said.'),
     # this is a very strange typo
     ("アトランテッィク", "Atoranteku"),
-    # odoriji. Note at this point these rarely work properly, they mainly
-    # don't blow up.
+    # odoriji. Note at this point these rarely work properly, these mainly test
+    # that they don't blow up.
     ("くゞる", "Kuguru"),  # note this is actually in unidic-lite
     ("くヽる", "Ku ru"),
     ("今度クヾペへ行こう", "Kondo kugupe e ikou"),  # made up word
