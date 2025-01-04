@@ -3,7 +3,7 @@
 
 # cutlet
 
-<img src="https://github.com/polm/cutlet/raw/master/cutlet.png" width=125 height=125 alt="cutlet by Irasutoya" />
+<img src="https://github.com/polm/cutlet/raw/main/cutlet.png" width=125 height=125 alt="cutlet by Irasutoya" />
 
 Cutlet is a tool to convert Japanese to romaji. Check out the [interactive demo][demo]! Also see the [docs](https://polm.github.io/cutlet/cutlet.html) and the [original blog post](https://www.dampfkraft.com/nlp/cutlet-python-romaji-converter.html). 
 
