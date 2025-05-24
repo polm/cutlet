@@ -9,9 +9,9 @@ from dataclasses import dataclass
 
 from .mapping import *
 
-SUTEGANA = 'ゃゅょぁぃぅぇぉ'
-PUNCT = '\'".!?(),;:-'
-ODORI = '々〃ゝゞヽゞ'
+SUTEGANA = "ゃゅょぁぃぅぇぉ"
+PUNCT = "'\".!?(),;:-"
+ODORI = "々〃ゝゞヽゞ"
 
 # MeCab character types; see char.def
 CHAR_ALPHA = 5
@@ -19,10 +19,11 @@ CHAR_HIRAGANA = 6
 CHAR_KATAKANA = 7
 
 SYSTEMS = {
-        'hepburn': HEPBURN,
-        'kunrei': KUNREISHIKI,
-        'nihon': NIHONSHIKI,
+    "hepburn": HEPBURN,
+    "kunrei": KUNREISHIKI,
+    "nihon": NIHONSHIKI,
 }
+
 
 def has_foreign_lemma(word):
     """Check if a word (node) has a foreign lemma.
@@ -32,7 +33,7 @@ def has_foreign_lemma(word):
     with non-foreign-lemma information.
     """
 
-    if '-' in word.surface:
+    if "-" in word.surface:
         # TODO check if this is actually possible in vanilla unidic
         return False
 
@@ -42,15 +43,16 @@ def has_foreign_lemma(word):
 
     lemma = word.feature.lemma
 
-    if not '-' in lemma:
+    if not "-" in lemma:
         return False
 
-    cand = lemma.split('-', 1)[-1]
+    cand = lemma.split("-", 1)[-1]
     # NOTE: some words have 外国 instead of a foreign spelling. ジル
     # (Jill?) is an example. Unclear why this is the case.
     # There are other hyphenated lemmas, like 私-代名詞.
     if cand.isascii():
         return True
+
 
 def normalize_text(text):
     """Given text, normalize variations in Japanese.
@@ -63,30 +65,33 @@ def normalize_text(text):
     - Half-width katakana to full-width
     """
     # perform unicode normalization
-    text = unicodedata.normalize('NFKC', text)
+    text = unicodedata.normalize("NFKC", text)
     # convert all full-width alphanum to half-width, since it can go out as-is
     text = mojimoji.zen_to_han(text, kana=False)
     # replace half-width katakana with full-width
     text = mojimoji.han_to_zen(text, digit=False, ascii=False)
     return text
 
+
 def load_exceptions():
     """Load list of exceptions from included data file."""
     cdir = pathlib.Path(__file__).parent.absolute()
     exceptions = {}
-    with open(cdir / 'exceptions.tsv', encoding='utf-8') as exceptions_file:
+    with open(cdir / "exceptions.tsv", encoding="utf-8") as exceptions_file:
         for line in exceptions_file:
             line = line.strip()
             # allow comments and blanks
-            if line[0] == '#' or not line: continue
-            key, val = line.split('\t')
+            if line[0] == "#" or not line:
+                continue
+            key, val = line.split("\t")
             exceptions[key] = val
     return exceptions
+
 
 @dataclass
 class Token:
     surface: str
-    space: bool # if a space should follow
+    space: bool  # if a space should follow
     # whether this comes from a foreign lemma
     foreign: bool = False
 
@@ -94,14 +99,15 @@ class Token:
         sp = " " if self.space else ""
         return f"{self.surface}{sp}"
 
+
 class Cutlet:
     def __init__(
-            self,
-            system = 'hepburn',
-            use_foreign_spelling = True,
-            ensure_ascii = True,
-            mecab_args = "",
-):
+        self,
+        system="hepburn",
+        use_foreign_spelling=True,
+        ensure_ascii=True,
+        mecab_args="",
+    ):
         """Create a Cutlet object, which holds configuration as well as
         tokenizer state.
 
@@ -125,7 +131,8 @@ class Cutlet:
         ```
         """
         # allow 'nippon' for 'nihon'
-        if system == 'nippon': system = 'nihon'
+        if system == "nippon":
+            system = "nihon"
         self.system = system
         try:
             # make a copy so we can modify it
@@ -138,10 +145,10 @@ class Cutlet:
         self.exceptions = load_exceptions()
 
         # these are too minor to be worth exposing as arguments
-        self.use_tch = (self.system in ('hepburn',))
-        self.use_wa  = (self.system in ('hepburn', 'kunrei'))
-        self.use_he  = (self.system in ('nihon',))
-        self.use_wo  = (self.system in ('hepburn', 'nihon'))
+        self.use_tch = self.system in ("hepburn",)
+        self.use_wa = self.system in ("hepburn", "kunrei")
+        self.use_he = self.system in ("nihon",)
+        self.use_wo = self.system in ("hepburn", "nihon")
 
         self.use_foreign_spelling = use_foreign_spelling
         self.ensure_ascii = ensure_ascii
@@ -183,7 +190,7 @@ class Cutlet:
         stripped.
         """
         roma = self.romaji(text).lower()
-        slug = re.sub(r'[^a-z0-9]+', '-', roma).strip('-')
+        slug = re.sub(r"[^a-z0-9]+", "-", roma).strip("-")
         return slug
 
     def romaji_tokens(self, words, capitalize=True, title=False):
@@ -211,9 +218,11 @@ class Cutlet:
             nw = words[wi + 1] if wi < len(words) - 1 else None
 
             # handle possessive apostrophe as a special case
-            if (word.surface == "'" and
-                    (nw and nw.char_type == CHAR_ALPHA and not nw.white_space) and
-                    not word.white_space):
+            if (
+                word.surface == "'"
+                and (nw and nw.char_type == CHAR_ALPHA and not nw.white_space)
+                and not word.white_space
+            ):
                 # remove preceeding space
                 if po:
                     po.space = False
@@ -222,35 +231,36 @@ class Cutlet:
 
             # resolve split verbs / adjectives
             roma = self.romaji_word(word)
-            if roma and po and po.surface and po.surface[-1] == 'っ':
+            if roma and po and po.surface and po.surface[-1] == "っ":
                 po.surface = po.surface[:-1] + roma[0]
-            if word.feature.pos2 == '固有名詞':
+            if word.feature.pos2 == "固有名詞":
                 roma = roma.title()
-            if (title and
-                word.feature.pos1 not in ('助詞', '助動詞', '接尾辞') and
-                not (pw and pw.feature.pos1 == '接頭辞')):
+            if (
+                title
+                and word.feature.pos1 not in ("助詞", "助動詞", "接尾辞")
+                and not (pw and pw.feature.pos1 == "接頭辞")
+            ):
                 roma = roma.title()
 
             foreign = self.use_foreign_spelling and has_foreign_lemma(word)
             tok = Token(roma, False, foreign)
             # handle punctuation with atypical spacing
-            if word.surface in '「『':
+            if word.surface in "「『":
                 if po:
                     po.space = True
                 out.append(tok)
                 continue
-            if roma in '([':
+            if roma in "([":
                 if po:
                     po.space = True
                 out.append(tok)
                 continue
-            if roma == '/':
+            if roma == "/":
                 out.append(tok)
                 continue
 
             # preserve spaces between ascii tokens
-            if (word.surface.isascii() and
-                nw and nw.surface.isascii()):
+            if word.surface.isascii() and nw and nw.surface.isascii():
                 use_space = bool(nw.white_space)
                 out.append(Token(word.surface, use_space))
                 continue
@@ -259,23 +269,30 @@ class Cutlet:
 
             # no space sometimes
             # お酒 -> osake
-            if word.feature.pos1 == '接頭辞': continue
+            if word.feature.pos1 == "接頭辞":
+                continue
             # 今日、 -> kyou, ; 図書館 -> toshokan
-            if nw and nw.feature.pos1 in ('補助記号', '接尾辞'): continue
+            if nw and nw.feature.pos1 in ("補助記号", "接尾辞"):
+                continue
             # special case for half-width commas
-            if nw and nw.surface == ',': continue
+            if nw and nw.surface == ",":
+                continue
             # special case for prefixes
-            if foreign and roma[-1] == "-": continue
+            if foreign and roma[-1] == "-":
+                continue
             # 思えば -> omoeba
-            if nw and nw.feature.pos2 in ('接続助詞'): continue
+            if nw and nw.feature.pos2 in ("接続助詞"):
+                continue
             # 333 -> 333 ; this should probably be handled in mecab
-            if (word.surface.isdigit() and
-                    nw and nw.surface.isdigit()):
+            if word.surface.isdigit() and nw and nw.surface.isdigit():
                 continue
             # そうでした -> sou deshita
-            if (nw and word.feature.pos1 in ('動詞', '助動詞','形容詞')
-                   and nw.feature.pos1 == '助動詞'
-                   and nw.surface != 'です'):
+            if (
+                nw
+                and word.feature.pos1 in ("動詞", "助動詞", "形容詞")
+                and nw.feature.pos1 == "助動詞"
+                and nw.surface != "です"
+            ):
                 continue
 
             # if we get here, it does need a space
@@ -303,13 +320,17 @@ class Cutlet:
         (particles, endings) will not.
         """
         if not text:
-            return ''
+            return ""
 
         text = normalize_text(text)
+        print("normalized", text)
         words = self.tagger(text)
+        print("words", words)
+        for word in words:
+            print(word.surface, word.feature.pron)
 
         tokens = self.romaji_tokens(words, capitalize, title)
-        out = ''.join([str(tok) for tok in tokens]).strip()
+        out = "".join([str(tok) for tok in tokens]).strip()
         return out
 
     def romaji_word(self, word):
@@ -337,27 +358,31 @@ class Cutlet:
             # unknown kanji, could be hangul, cyrillic, something else.
             # By default ensure ascii by replacing with ?, but allow pass-through.
             if self.ensure_ascii:
-                out = '?' * len(word.surface)
+                out = "?" * len(word.surface)
                 return out
             else:
                 return word.surface
 
-        if word.feature.pos1 == '補助記号':
+        if word.feature.pos1 == "補助記号":
             # If it's punctuation we don't recognize, just discard it
-            return self.table.get(word.surface, '')
-        elif (self.use_wa and
-                word.feature.pos1 == '助詞' and word.feature.pron == 'ワ'):
-            return 'wa'
-        elif (not self.use_he and
-                word.feature.pos1 == '助詞' and word.feature.pron == 'エ'):
-            return 'e'
-        elif (not self.use_wo and
-                word.feature.pos1 == '助詞' and word.feature.pron == 'オ'):
-            return 'o'
-        elif (self.use_foreign_spelling and
-                has_foreign_lemma(word)):
+            return self.table.get(word.surface, "")
+        elif self.use_wa and word.feature.pos1 == "助詞" and word.feature.pron == "ワ":
+            return "wa"
+        elif (
+            not self.use_he
+            and word.feature.pos1 == "助詞"
+            and word.feature.pron == "エ"
+        ):
+            return "e"
+        elif (
+            not self.use_wo
+            and word.feature.pos1 == "助詞"
+            and word.feature.pron == "オ"
+        ):
+            return "o"
+        elif self.use_foreign_spelling and has_foreign_lemma(word):
             # this is a foreign word with known spelling
-            return word.feature.lemma.split('-', 1)[-1]
+            return word.feature.lemma.split("-", 1)[-1]
         elif word.feature.kana:
             # for known words
             kana = jaconv.kata2hira(word.feature.kana)
@@ -372,7 +397,7 @@ class Cutlet:
         The exact romaji resulting from a kana sequence depend on the preceding
         or following kana, so this handles that conversion.
         """
-        out = ''
+        out = ""
         for ki, char in enumerate(kana):
             nk = kana[ki + 1] if ki < len(kana) - 1 else None
             pk = kana[ki - 1] if ki > 0 else None
@@ -386,47 +411,59 @@ class Cutlet:
         # left in readings for dictionary words, and we can't follow kana
         # across word boundaries.
         if kk in ODORI:
-            if kk in 'ゝヽ':
-                if pk: return pk
-                else: return '' # invalid but be nice
-            if kk in 'ゞヾ': # repeat with voicing
-                if not pk: return ''
+            if kk in "ゝヽ":
+                if pk:
+                    return pk
+                else:
+                    return ""  # invalid but be nice
+            if kk in "ゞヾ":  # repeat with voicing
+                if not pk:
+                    return ""
                 vv = add_dakuten(pk)
-                if vv: return self.table[vv]
-                else: return ''
+                if vv:
+                    return self.table[vv]
+                else:
+                    return ""
             # remaining are 々 for kanji and 〃 for symbols, but we can't
             # infer their span reliably (or handle rendaku)
-            return ''
-
+            return ""
 
         # handle digraphs
         if pk and (pk + kk) in self.table:
             return self.table[pk + kk]
         if nk and (kk + nk) in self.table:
-            return ''
+            return ""
 
         if nk and nk in SUTEGANA:
-            if kk == 'っ': return '' # never valid, just ignore
+            if kk == "っ":
+                return ""  # never valid, just ignore
             return self.table[kk][:-1] + self.table[nk]
         if kk in SUTEGANA:
-            return ''
+            return ""
 
-        if kk == 'ー': # 長音符
-            if pk and pk in self.table: return self.table[pk][-1]
-            else: return '-'
+        if kk == "ー":  # 長音符
+            if pk and pk in self.table:
+                return self.table[pk][-1]
+            else:
+                return "-"
 
-        if kk == 'っ':
+        if kk == "っ":
             if nk:
-                if self.use_tch and nk == 'ち': return 't'
-                elif nk in 'あいうえおっ': return '-'
-                else: return self.table[nk][0] # first character
+                if self.use_tch and nk == "ち":
+                    return "t"
+                elif nk in "あいうえおっ":
+                    return "-"
+                else:
+                    return self.table[nk][0]  # first character
             else:
                 # seems like it should never happen, but 乗っ|た is two tokens
                 # so leave this as is and pick it up at the word level
-                return 'っ'
+                return "っ"
 
-        if kk == 'ん':
-            if nk and nk in 'あいうえおやゆよ': return "n'"
-            else: return 'n'
+        if kk == "ん":
+            if nk and nk in "あいうえおやゆよ":
+                return "n'"
+            else:
+                return "n"
 
         return self.table[kk]
