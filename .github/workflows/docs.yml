@@ -4,7 +4,7 @@ name: website
 on:
   push:
     branches:
-      - master
+      - main
 
 # security: restrict permissions for CI jobs.
 permissions:
@@ -22,7 +22,7 @@ jobs:
 
       - run: pip install -e .
       - run: pip install pdoc
-      - run: pdoc -o docs/ --logo https://github.com/polm/cutlet/raw/master/cutlet.png cutlet
+      - run: pdoc -o docs/ --logo https://github.com/polm/cutlet/raw/main/cutlet.png --favicon https://github.com/polm/cutlet/raw/main/cutlet.png cutlet
 
       - uses: actions/upload-pages-artifact@v3
         with:
