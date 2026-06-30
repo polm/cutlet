@@ -31,7 +31,7 @@ HEPBURN = {
     "て": "te",
     "と": "to",
     "だ": "da",
-    "ぢ": "zi",
+    "ぢ": "ji",
     "づ": "zu",
     "で": "de",
     "ど": "do",
@@ -168,6 +168,7 @@ KUNREISHIKI = dict(HEPBURN)
 
 KUNREISHIKI["し"] = "si"
 KUNREISHIKI["じ"] = "zi"
+KUNREISHIKI["ぢ"] = "zi"  # ぢ is "ji" in Hepburn but "zi" in Kunrei
 KUNREISHIKI["つ"] = "tu"
 KUNREISHIKI["ち"] = "ti"
 KUNREISHIKI["しゃ"] = "sya"

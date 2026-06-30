@@ -104,10 +104,13 @@ SENTENCES = [
     # ascii whitespace, see #65
     ("[04:30.748]", "[04:30.748]"),
     (".big,bad bog", ".big,bad bog"),
+    # ぢ romanizes as "ji" in Hepburn, like じ (yotsugana)
+    ("はなぢ", "Hanaji"),
 ]
 
 SENTENCES_KUNREI = [
     ("富士見坂", "Huzimi saka"),
+    ("はなぢ", "Hanazi"),
 ]
 
 SLUGS = [
