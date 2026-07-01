@@ -341,6 +341,15 @@ class Cutlet:
         if word.surface.isascii():
             return word.surface
 
+        # deal with exceptional non-ascii punctuation
+        # may be better to have a more general strategy for this
+        # see #70
+        if word.surface in ("€", "¥"):
+            if self.ensure_ascii:
+                return ""
+            else:
+                return word.surface
+
         # deal with unks first
         if word.is_unk:
             # at this point is is presumably an unk

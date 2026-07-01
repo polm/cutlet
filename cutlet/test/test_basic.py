@@ -17,6 +17,19 @@ WORDS = [
     ("ポール", "Paul"),
     ("ジル", "jiru"),  # test of ジル-外国 style lemmas
     ("1", "1"),
+    # euro and yen are non-ascii symbols and are removed unless ensure_ascii=False
+    ("€", ""),
+    ("¥", ""),
+]
+
+WORDS_NONASCII = [
+    # some basic tests to make sure not everything breaks
+    ("新橋", "shinbashi"),
+    ("学校", "gakkou"),
+    ("パンダ", "panda"),
+    # euro and yen, special symbols
+    ("€", "€"),
+    ("¥", "¥"),
 ]
 
 WORDS_KUNREI = [
@@ -163,6 +176,11 @@ def test_words(ja, roma):
     word = cut.tagger.parseToNodeList(ja)[0]
     assert cut.romaji_word(word) == roma
 
+@pytest.mark.parametrize("ja, roma", WORDS_NONASCII)
+def test_words_nonascii(ja, roma):
+    cut = Cutlet(ensure_ascii=False)
+    word = cut.tagger.parseToNodeList(ja)[0]
+    assert cut.romaji_word(word) == roma
 
 @pytest.mark.parametrize("ja, roma", WORDS_KUNREI)
 def test_words_kunrei(ja, roma):
