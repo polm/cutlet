@@ -1,6 +1,38 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=3.4"]
+requires = ["setuptools>=77", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "cutlet"
+dynamic = ["version"]
+description = "Romaji converter"
+readme = "README.md"
+authors = [
+    { name = "Paul O'Leary McCann", email = "polm@dampfkraft.com" },
+]
+requires-python = ">=3.10"
+dependencies = ["jaconv", "fugashi", "mojimoji"]
+license = "MIT OR WTFPL"
+classifiers = [
+    "Natural Language :: Japanese",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "hypothesis"]
+
+[project.urls]
+Homepage = "https://github.com/polm/cutlet"
+
+[project.scripts]
+cutlet = "cutlet.cli:main"
+
+[tool.setuptools]
+packages = ["cutlet"]
+# Match the old setup.py: ship only package-data, not every tracked file
+include-package-data = false
+
+[tool.setuptools.package-data]
+cutlet = ["exceptions.tsv"]
 
 [tool.setuptools_scm]
 # apparently it is OK to make this blank
