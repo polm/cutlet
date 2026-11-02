@@ -124,6 +124,8 @@ SENTENCES = [
     # https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%A4%E3%83%AA%E3%83%BC%E3%82%B9
     # technically "Birely's Orange", but not fixing in core
     ("バャリースオレンヂ", "Byariisuorenji"),
+    # unidic reads 羽田 as ハタ, see #72
+    ("羽田空港", "Haneda kuukou"),
 ]
 
 SENTENCES_KUNREI = [
