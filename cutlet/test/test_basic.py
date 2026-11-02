@@ -105,12 +105,14 @@ SENTENCES = [
     ('"Hello," he said.', '"Hello," he said.'),
     # this is a very strange typo
     ("アトランテッィク", "Atoranteku"),
-    # odoriji. Note at this point these rarely work properly, these mainly test
-    # that they don't blow up.
+    # odoriji. Rendaku and unclear spans are not handled.
     ("くゞる", "Kuguru"),  # note this is actually in unidic-lite
-    ("くヽる", "Ku ru"),
     ("今度クヾペへ行こう", "Kondo kugupe e ikou"),  # made up word
     ("彁々", "?"),
+    # odoriji across word boundaries, see #58
+    ("くヽる", "Kuku ru"),
+    ("那々緒", "Nana itoguchi"),
+    ("部分々々", "Bubunbubun"),
     # prefixes, see #56
     ("ビオハザード", "Bio-hazard"),
     ("イントラワード", "Intra-word"),

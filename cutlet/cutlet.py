@@ -11,7 +11,7 @@ from .mapping import *
 
 SUTEGANA = "ゃゅょぁぃぅぇぉ"
 PUNCT = "'\".!?(),;:-"
-ODORI = "々〃ゝゞヽゞ"
+ODORI = "々〃ゝゞヽヾ"
 
 # MeCab character types; see char.def
 CHAR_ALPHA = 5
@@ -229,8 +229,12 @@ class Cutlet:
                 out.append(Token(word.surface, False))
                 continue
 
+            # odoriji split off from the previous word, see #58
+            if word.surface in ODORI:
+                roma = self.romaji_odori(words, wi)
+            else:
+                roma = self.romaji_word(word)
             # resolve split verbs / adjectives
-            roma = self.romaji_word(word)
             if roma and po and po.surface and po.surface[-1] == "っ":
                 po.surface = po.surface[:-1] + roma[0]
             if word.feature.pos2 == "固有名詞":
@@ -396,6 +400,53 @@ class Cutlet:
             # unclear when we would actually get here
             return word.surface
 
+    def romaji_odori(self, words, wi):
+        """Return the romaji for an odoriji that is a token of its own.
+
+        Odoriji in dictionary words are handled by the dictionary, but when
+        they are split off as their own token they need the reading of the
+        previous word.
+        """
+        word = words[wi]
+
+        if word.surface == "々":
+            # find the start and length of the run of 々 tokens
+            start = wi
+            while start > 0 and words[start - 1].surface == "々":
+                start -= 1
+            end = wi
+            while end < len(words) - 1 and words[end + 1].surface == "々":
+                end += 1
+            run = end - start + 1
+
+            pw = words[start - 1] if start > 0 else None
+            if not pw or pw.is_unk or not pw.feature.kana:
+                return ""
+            # 那々 -> nana
+            if len(pw.surface) == 1:
+                return self.romaji_word(pw)
+            # 部分々々 -> bubunbubun
+            if run == len(pw.surface) and wi == start:
+                return self.romaji_word(pw)
+            # we can't infer the span reliably (or handle rendaku)
+            return ""
+
+        if word.surface in "ゝゞヽヾ":
+            pw = words[wi - 1] if wi > 0 else None
+            if not pw:
+                return ""
+            if pw.is_unk and pw.char_type in (CHAR_HIRAGANA, CHAR_KATAKANA):
+                kana = pw.surface
+            elif not pw.is_unk and pw.feature.kana:
+                kana = pw.feature.kana
+            else:
+                return ""
+            pk = jaconv.kata2hira(kana)[-1]
+            return self.get_single_mapping(pk, jaconv.kata2hira(word.surface), None)
+
+        # 〃 is for symbols, nothing to do
+        return ""
+
     def map_kana(self, kana):
         """Given a list of kana, convert them to romaji.
 
@@ -412,13 +463,13 @@ class Cutlet:
     def get_single_mapping(self, pk, kk, nk):
         """Given a single kana and its neighbors, return the mapped romaji."""
         # handle odoriji
-        # NOTE: This is very rarely useful at present because odoriji are not
-        # left in readings for dictionary words, and we can't follow kana
-        # across word boundaries.
+        # NOTE: Odoriji are not left in readings for dictionary words, so this
+        # is mainly used for unks and for odoriji split off from the previous
+        # word (see romaji_odori).
         if kk in ODORI:
             if kk in "ゝヽ":
                 if pk:
-                    return pk
+                    return self.table.get(pk, "")
                 else:
                     return ""  # invalid but be nice
             if kk in "ゞヾ":  # repeat with voicing
